@@ -1,6 +1,5 @@
 package com.viscum.pay.service;
 
-import com.viscum.pay.base.WxConstanst;
 import com.viscum.pay.config.WxPayConfig;
 import com.viscum.pay.exception.PayException;
 import com.viscum.pay.model.PayRequest;
