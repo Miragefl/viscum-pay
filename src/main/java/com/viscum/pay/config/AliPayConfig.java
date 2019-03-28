@@ -1,0 +1,42 @@
+package com.viscum.pay.config;
+
+import com.viscum.pay.enums.SignType;
+import lombok.Data;
+
+@Data
+public class AliPayConfig {
+
+    /**
+     * 应用id
+     */
+    private String appId;
+
+    // 支付宝公钥
+    private String aliPublicKey;
+
+    /**
+     * 应用私钥.
+     */
+    private String appPrivateKey;
+
+    /**
+     * 应用公钥.
+     */
+    private String appPublicKey;
+
+    /**
+     * 签名方式: RSA, RSA2两个值可选, 必须大写.
+     */
+    private Enum<SignType> signType;
+
+    private String notifyUrl;
+
+    public AliPayConfig(String appId, String aliPublicKey, String appPrivateKey, String appPublicKey, Enum<SignType> signType, String notifyUrl) {
+        this.appId = appId;
+        this.aliPublicKey = aliPublicKey;
+        this.appPrivateKey = appPrivateKey;
+        this.appPublicKey = appPublicKey;
+        this.signType = signType;
+        this.notifyUrl = notifyUrl;
+    }
+}
