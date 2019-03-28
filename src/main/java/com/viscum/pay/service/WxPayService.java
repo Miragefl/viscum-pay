@@ -29,7 +29,7 @@ public class WxPayService {
         this.wxPayConfig = wxPayConfig;
     }
 
-    public <T extends PayResponse> T execute(PayRequest<T> request) throws Exception {
+    public <T extends PayResponse> T execute(PayRequest<T> request) throws PayException {
         TrustManager trustManager = null;
         if (request.needCert()) {
             try {
