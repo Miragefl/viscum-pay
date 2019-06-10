@@ -11,32 +11,31 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliCommonParam {
+public class AliRequest {
     @JsonProperty("app_id")
     private String appId;
-    private String format;
-    private String charset;
+    private String format = Standard.FORMAT_JSON;
+    private String charset = Standard.ENCODING_UTF8;
     private String method;
     @JsonProperty("sign_type")
     private String signType;
-    private String timestamp;
+    private String timestamp = Helper.getCurrentTime("yyyy-MM-dd HH:mm:ss");
     private String version;
     @JsonProperty("notify_url")
     private String notifyUrl;
+    @JsonProperty("return_url")
+    private String returnUrl;
     @JsonProperty("biz_content")
     private String bizContent;
     private String sign;
 
-    public AliCommonParam(String appid, String notifyUrl, String method, String version, String bizContent) {
-        this.appId = appid;
-        this.notifyUrl = notifyUrl;
-        this.format = Standard.FORMAT_JSON;
-        this.charset = Standard.ENCODING_UTF8;
-        this.signType = Standard.SIGN_TYPE_RSA2;
+    public AliRequest(String appId, String method, String signType, String version, String notifyUrl, String returnUrl, String bizContent) {
+        this.appId = appId;
         this.method = method;
-        this.timestamp = Helper.getCurrentTime("yyyy-MM-dd HH:mm:ss");
+        this.signType = signType;
         this.version = version;
+        this.notifyUrl = notifyUrl;
+        this.returnUrl = returnUrl;
         this.bizContent = bizContent;
     }
-
 }

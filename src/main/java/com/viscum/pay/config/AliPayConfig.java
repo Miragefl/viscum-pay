@@ -31,12 +31,19 @@ public class AliPayConfig {
 
     private String notifyUrl;
 
-    public AliPayConfig(String appId, String aliPublicKey, String appPrivateKey, String appPublicKey, Enum<SignType> signType, String notifyUrl) {
+    private String returnUrl;
+
+    private String requestUrl;
+
+
+    public AliPayConfig(String appId, String aliPublicKey, String appPrivateKey, String appPublicKey, Enum<SignType> signType, String notifyUrl, String returnUrl,String requestUrl) {
         this.appId = appId;
         this.aliPublicKey = aliPublicKey;
         this.appPrivateKey = appPrivateKey;
         this.appPublicKey = appPublicKey;
         this.signType = signType;
         this.notifyUrl = notifyUrl;
+        this.returnUrl = returnUrl;
+        this.requestUrl = requestUrl;
     }
 }

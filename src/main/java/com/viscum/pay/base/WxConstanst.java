@@ -2,7 +2,6 @@ package com.viscum.pay.base;
 
 public class WxConstanst {
 
-    public static final String SERVER_URL = "https://api.mch.weixin.qq.com";
     /**
      * 微信预下单
      */

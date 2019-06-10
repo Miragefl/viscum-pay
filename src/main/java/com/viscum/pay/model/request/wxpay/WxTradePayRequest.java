@@ -41,13 +41,11 @@ public class WxTradePayRequest implements PayRequest<WxTradePayResponse> {
     /**
      * 订单总金额，单位为分
      */
-    @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}$", message = "请输入正确的金额")
     @JsonProperty("total_fee")
     private String totalAmt;
     /**
      * 异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数
      */
-    @NotBlank(message = "回调地址不能为空")
     @JsonProperty("notify_url")
     private String notifyUrl;
     /**
@@ -59,7 +57,6 @@ public class WxTradePayRequest implements PayRequest<WxTradePayResponse> {
      * 终端IP
      * 支持IPV4和IPV6两种格式的IP地址。调用微信支付API的机器IP
      */
-    @Pattern(regexp = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)", message = "终端Ip不能为空")
     @JsonProperty("spbill_create_ip")
     private String spbillCreateIp;
 

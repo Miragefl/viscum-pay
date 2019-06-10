@@ -30,11 +30,14 @@ public class WxPayConfig {
      */
     private String keyPath;
 
-    public WxPayConfig(String appId, String appSecret, String mchId, String mchKey, String keyPath) {
+    private String requestUrl;
+
+    public WxPayConfig(String appId, String appSecret, String mchId, String mchKey, String keyPath,String requestUrl) {
         this.appId = appId;
         this.appSecret = appSecret;
         this.mchId = mchId;
         this.mchKey = mchKey;
         this.keyPath = keyPath;
+        this.requestUrl = requestUrl;
     }
 }

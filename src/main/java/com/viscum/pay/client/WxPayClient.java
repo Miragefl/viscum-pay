@@ -1,4 +1,4 @@
-package com.viscum.pay.service;
+package com.viscum.pay.client;
 
 import com.viscum.pay.config.WxPayConfig;
 import com.viscum.pay.exception.PayException;
@@ -14,13 +14,17 @@ import javax.net.ssl.TrustManager;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 微信支付相关接口
  */
 @Slf4j
 @Service
-public class WxPayService {
+public class WxPayClient implements DefaultClient {
 
     private WxPayConfig wxPayConfig;
 
@@ -37,7 +41,7 @@ public class WxPayService {
                 throw new PayException("获取证书出错", e);
             }
         }
-        return call(request, request.getResponseClass(), request.getServerUrl() + request.getMethod(), trustManager);
+        return call(request, request.getResponseClass(), wxPayConfig.getRequestUrl() + request.getMethod(), trustManager);
     }
 
     /**
@@ -52,8 +56,8 @@ public class WxPayService {
             JSONObject json = JSONObject.fromObject(jsonStr);
             String sign = String.valueOf(json.get("sign"));
             json.remove("sign");
-            String signContent = WxPayUtil.getSignContent(json, wxPayConfig.getAppSecret());
-            return WxPayUtil.genDigest(signContent).equals(sign);
+            String signContent = getSignContent(json, wxPayConfig.getAppSecret());
+            return genDigest(signContent).equals(sign);
         } catch (IOException e) {
             throw new PayException("实体类转换json出错", e);
         } catch (Exception e) {
@@ -75,9 +79,8 @@ public class WxPayService {
             JSONObject json = JSONObject.fromObject(JsonParser.modelToJSON(request));
             json.put("appid", wxPayConfig.getAppId());
             json.put("mch_id", wxPayConfig.getMchId());
-            json.put("nonce_str", Helper.getRandomChar(16));
-            String signContent = WxPayUtil.getSignContent(json, wxPayConfig.getAppSecret());
-            String sign = WxPayUtil.genDigest(signContent);
+            String signContent = getSignContent(json, wxPayConfig.getAppSecret());
+            String sign = genDigest(signContent);
             json.put("sign", sign);
             String params = XmlUtil.parseMapToXml(json).getRootElement().asXML();
             log.info("上送微信接口报文：" + params);
@@ -100,5 +103,41 @@ public class WxPayService {
         }
     }
 
+    /**
+     * 生成待签名内容
+     *
+     * @param json
+     * @param wxPayKey
+     * @return
+     */
+    public String getSignContent(JSONObject json, String wxPayKey) {
+        List<String> list = new ArrayList<String>();
+        String strTmp = "";
+        Iterator it = json.keySet().iterator();
+        String key = "";
+        while (it.hasNext()) {
+            key = (String) it.next();
+            list.add(key);
+        }
+        Collections.sort(list);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append("&" + list.get(i) + "=" + json.getString(list.get(i)));
+        }
+        sb.append("&key=" + wxPayKey);
+        strTmp = sb.substring(1);
+        log.debug("传入的报文字段排序后()：->" + strTmp);
+        return strTmp;
+    }
+
+    /**
+     * 生成数据摘要
+     *
+     * @param signContent
+     * @return
+     */
+    public String genDigest(String signContent) {
+        return MD5Util.encode(signContent);
+    }
 
 }
