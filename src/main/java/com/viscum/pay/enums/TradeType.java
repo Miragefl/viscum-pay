@@ -1,5 +1,10 @@
 package com.viscum.pay.enums;
 
+/**
+ * 支付方式
+ *
+ * @author fenglei
+ */
 public enum TradeType {
     /**
      * SAPI -JSAPI支付
