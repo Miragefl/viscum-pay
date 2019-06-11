@@ -1,6 +1,7 @@
 package com.viscum.pay.model.request.alipay;
 
 import com.viscum.pay.base.Standard;
+import com.viscum.pay.enums.SignType;
 import com.viscum.pay.util.Helper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +19,7 @@ public class AliCommonRequest {
     private String charset = Standard.ENCODING_UTF8;
     private String method;
     @JsonProperty("sign_type")
-    private String signType;
+    private SignType signType;
     private String timestamp = Helper.getCurrentTime("yyyy-MM-dd HH:mm:ss");
     private String version;
     @JsonProperty("notify_url")
@@ -29,7 +30,7 @@ public class AliCommonRequest {
     private String bizContent;
     private String sign;
 
-    public AliCommonRequest(String appId, String method, String signType, String version, String notifyUrl, String returnUrl, String bizContent) {
+    public AliCommonRequest(String appId, String method, SignType signType, String version, String notifyUrl, String returnUrl, String bizContent) {
         this.appId = appId;
         this.method = method;
         this.signType = signType;

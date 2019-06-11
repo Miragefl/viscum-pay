@@ -10,17 +10,20 @@ import com.viscum.pay.model.request.alipay.AliRequest;
 import com.viscum.pay.model.response.BaseResponse;
 import com.viscum.pay.model.request.alipay.AliCommonRequest;
 import com.viscum.pay.util.*;
-import lombok.Data;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+
+import static com.viscum.pay.util.RSAUtil.rsaCheck;
 
 /**
  * <p>
@@ -30,38 +33,70 @@ import java.util.List;
  * @author fenglei
  * @since 2019-06-10
  */
-@Data
+@Component
 public class AliPayClient {
 
     private Logger logger = LoggerFactory.getLogger(AliPayClient.class);
 
     private AliPayConfig aliPayConfig;
 
-    public AliPayClient(AliPayConfig aliPayConfig) {
+    public void setAliPayConfig(AliPayConfig aliPayConfig) {
         this.aliPayConfig = aliPayConfig;
     }
 
     public <T extends BaseResponse> T execute(AliRequest<T> request) throws IOException, PayException {
-        String biz_content = JsonParser.modelToJSON(request).replaceAll("\r\n", "").replaceAll("\\s+", "");
+        String bizContent = JsonParser.modelToJSON(request).replaceAll("\r\n", "").replaceAll("\\s+", "");
+        // 生成支付宝请求报文实体
         AliCommonRequest aliCommonRequest = new AliCommonRequest(
                 aliPayConfig.getAppId(),
                 request.getMethod(),
+                aliPayConfig.getSignType(),
                 request.getVersion(),
-                aliPayConfig.getSignType().toString(),
                 aliPayConfig.getNotifyUrl(),
                 aliPayConfig.getReturnUrl(),
-                biz_content);
-        aliCommonRequest.setSign(getAliSign(aliCommonRequest));
+                bizContent);
+        // 生成签名
+        String sign = getAliSign(aliCommonRequest);
+        aliCommonRequest.setSign(sign);
+        logger.info("{}", aliCommonRequest.toString());
+        // 生成请求参数
         String requestStr = generateRequestParam(aliCommonRequest);
-        String responseStr = HttpUtil.callPostStr(aliPayConfig.getRequestUrl(), requestStr, "form", null, null);
+        logger.info("请求支付宝参数:{}", requestStr);
+        // 调用支付宝接口
+        byte[] bytes = HttpUtil.callPostStr(aliPayConfig.getRequestUrl(), requestStr, "form", null, null);
+        JSONObject responseJson = null;
+        try {
+            responseJson = JSONObject.fromObject(new String(bytes, Standard.ENCODING_UTF8));
+            logger.info("支付宝返回的报文：{}", responseJson);
+        } catch (UnsupportedEncodingException e) {
+            logger.info("返回报文内容，字符编码出错", e);
+            throw new PayException("H99991", "返回报文内容，字符编码出错", e);
+        }
 
+        // 获取签名
+        sign = responseJson.getString("sign");
+
+        JSONObject content = responseJson.getJSONObject(aliCommonRequest.getMethod().replaceAll("\\.", "\\_") + "_response");
+        Iterator<String> it = content.keys();
+        JSONObject signJson = new JSONObject();
+        while (it.hasNext()) {
+            String key = it.next();
+            String value = "";
+            if (!(content.get(key) instanceof String)) {
+                value = "\"" + content.get(key).toString() + "\"";
+            } else {
+                value = content.getString(key);
+            }
+            signJson.put(key, value);
+        }
+        String signContent = signJson.toString();
         // 返回结果验签
-        if (!syncVerifySign(JSONObject.fromObject(responseStr), aliCommonRequest.getMethod())) {
+        if (!syncVerifySign(signContent, sign)) {
             throw new PayException("返回报文签名不正确，疑似篡改！");
         }
-        String content = JSONObject.fromObject(responseStr).get(aliCommonRequest.getMethod().replaceAll("\\.", "\\_") + "_response").toString();
         try {
-            return JsonParser.JSONToModel(content, request.getResponseClass());
+            content = JSONObject.fromObject(signContent);
+            return JsonParser.jsonToModel(content.toString(), request.getResponseClass());
         } catch (IOException e) {
             throw new PayException(Standard.RET_FAIL, "");
         }
@@ -81,7 +116,7 @@ public class AliPayClient {
             String signContent = getSignContent(requestJson);
             logger.info("排序后的生成签名字段：" + signContent);
             // 生成签名
-            String rsaSign = RSAUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliCommonRequest.getCharset());
+            String rsaSign = RSAUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliCommonRequest.getCharset(), aliPayConfig.getSignType().toString());
             logger.info("生成签名：" + rsaSign);
             return rsaSign;
         } catch (Exception e) {
@@ -101,6 +136,7 @@ public class AliPayClient {
         StringBuilder sb = new StringBuilder();
         try {
             JSONObject requestJson = JSONObject.fromObject(JsonParser.modelToJSON(aliCommonRequest));
+            logger.info("requestJson:\n{}", requestJson);
             List<String> keys = new ArrayList(requestJson.keySet());
             for (int i = 0; i < keys.size(); i++) {
                 sb.append("&" + keys.get(i) + "=" + URLEncoder.encode(requestJson.getString(keys.get(i)), aliCommonRequest.getCharset()));
@@ -115,23 +151,14 @@ public class AliPayClient {
         return sb.toString();
     }
 
-    /**
-     * 同步验签
-     *
-     * @param json
-     * @return
-     */
-    public Boolean syncVerifySign(JSONObject json, String method) throws PayException {
-        if (!json.containsKey("sign")) {
-            throw new PayException("返回报文中不含签名");
-        }
-        String sign = json.get("sign").toString();
-        logger.info("支付宝传来的签名：" + sign);
-        json.remove("sign");
-        String content = json.get(method.replaceAll("\\.", "\\_") + "_response").toString();
-        logger.info("待验证返回签名内容：" + content);
+    public Boolean syncVerifySign(String signContent, String sign) throws PayException {
         try {
-            boolean flag = RSAUtil.rsaCheck(content, sign, aliPayConfig.getAliPublicKey(), Standard.ENCODING_UTF8, aliPayConfig.getSignType().toString());
+            logger.info("支付宝传来的签名：" + sign);
+            if (signContent.contains("http://") || signContent.contains("https://")) {
+                signContent = signContent.replaceAll("/", "\\\\/");
+            }
+            logger.info("待验证返回签名内容：" + signContent);
+            boolean flag = rsaCheck(signContent, sign, aliPayConfig.getAliPublicKey(), Standard.ENCODING_UTF8, aliPayConfig.getSignType().toString());
             return flag;
         } catch (PayException e) {
             logger.info("验签出错", e);
@@ -153,7 +180,7 @@ public class AliPayClient {
 
         for (int i = 0; i < keys.size(); ++i) {
             String key = keys.get(i);
-            String value = (String) sortedParams.get(key);
+            String value = String.valueOf(sortedParams.get(key));
             if (StringUtils.areNotEmpty(new String[]{key, value})) {
                 content.append((index == 0 ? "" : "&") + key + "=" + value);
                 ++index;

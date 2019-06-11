@@ -33,19 +33,19 @@ public class JsonParser {
         }
     }
 
-    public static <T> T JSONToModel(String jsonStr, Class<T> clazz) throws IOException {
+    public static <T> T jsonToModel(String jsonStr, Class<T> clazz) throws IOException {
         return mapper.readValue(jsonStr, clazz);
     }
 
-    public static <T> List<T> JSONToList(String jsonStr, TypeReference<List<T>> type) throws IOException {
+    public static <T> List<T> jsonToList(String jsonStr, TypeReference<List<T>> type) throws IOException {
         return (List) mapper.readValue(jsonStr, type);
     }
 
-    public static <K, T> Map<K, T> JSONToMap(String jsonStr, TypeReference<Map<K, T>> type) throws IOException {
+    public static <K, T> Map<K, T> jsonToMap(String jsonStr, TypeReference<Map<K, T>> type) throws IOException {
         return (Map) mapper.readValue(jsonStr, type);
     }
 
-    public static <K, T> List<Map<K, T>> JSONToListMap(String jsonStr, TypeReference<List<Map<K, T>>> type) throws IOException {
+    public static <K, T> List<Map<K, T>> jsonToListMap(String jsonStr, TypeReference<List<Map<K, T>>> type) throws IOException {
         return (List) mapper.readValue(jsonStr, type);
     }
 

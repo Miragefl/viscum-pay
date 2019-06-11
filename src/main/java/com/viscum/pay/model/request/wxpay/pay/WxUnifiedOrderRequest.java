@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.wxpay.pay;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viscum.pay.base.WxConstanst;
 import com.viscum.pay.enums.SignType;
 import com.viscum.pay.enums.TradeType;
@@ -94,8 +95,9 @@ public class WxUnifiedOrderRequest implements WxRequest<WxUnifiedOrderResponse> 
         this.totalAmt = totalAmt;
         this.notifyUrl = notifyUrl;
         this.tradeType = tradeType;
-        if (tradeType.equals(TradeType.JSAPI.toString()))
+        if (tradeType.equals(TradeType.JSAPI.toString())) {
             this.openId = openId;
+        }
         this.spbillCreateIp = spbillCreateIp;
     }
 
@@ -105,16 +107,19 @@ public class WxUnifiedOrderRequest implements WxRequest<WxUnifiedOrderResponse> 
     }
 
     @Override
+    @JsonIgnore
     public Boolean needCert() {
         return false;
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return WxConstanst.UNIFIED_ORDER;
     }
 
     @Override
+    @JsonIgnore
     public Class<WxUnifiedOrderResponse> getResponseClass() {
         return WxUnifiedOrderResponse.class;
     }

@@ -7,6 +7,7 @@ import com.viscum.pay.model.request.wxpay.WxRequest;
 import com.viscum.pay.util.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -23,7 +24,7 @@ import java.util.List;
  * 微信支付相关接口
  */
 @Slf4j
-@Service
+@Component
 public class WxPayClient {
 
     private WxPayConfig wxPayConfig;
@@ -84,7 +85,7 @@ public class WxPayClient {
             json.put("sign", sign);
             String params = XmlUtil.parseMapToXml(json).getRootElement().asXML();
             log.info("上送微信接口报文：" + params);
-            String xml = HttpUtil.callPostStr(url, params, "form", null, trustManager);
+            String xml = new String(HttpUtil.callPostStr(url, params, "form", null, trustManager), "UTF-8");
             T t = XmlUtil.xmlStringToModel(xml, responseClazz, true);
             log.info("微信接口返回：" + t.toString());
             return t;

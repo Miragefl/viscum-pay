@@ -87,9 +87,19 @@ public class RSAUtil {
      * @param content
      * @param privateKey
      * @param charset
+     * @param signType
      * @return
      * @throws PayException
      */
+    public static String rsaSign(String content, String privateKey, String charset, String signType) throws PayException {
+        if ("RSA".equals(signType)) {
+            return rsaSign(content, privateKey, charset);
+        } else if ("RSA2".equals(signType)) {
+            return rsa256Sign(content, privateKey, charset);
+        } else {
+            throw new PayException("Sign Type is Not Support : signType=" + signType);
+        }
+    }
     public static String rsaSign(String content, String privateKey, String charset) throws PayException {
         try {
             PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));
@@ -100,12 +110,30 @@ public class RSAUtil {
             } else {
                 signature.update(content.getBytes(charset));
             }
+
             byte[] signed = signature.sign();
             return Base64Util.encode(signed);
         } catch (InvalidKeySpecException var6) {
             throw new PayException("RSA私钥格式不正确，请检查是否正确配置了PKCS8格式的私钥", var6);
         } catch (Exception var7) {
             throw new PayException("RSAcontent = " + content + "; charset = " + charset, var7);
+        }
+    }
+    public static String rsa256Sign(String content, String privateKey, String charset) throws PayException {
+        try {
+            PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));
+            Signature signature = Signature.getInstance("SHA256WithRSA");
+            signature.initSign(priKey);
+            if (StringUtils.isEmpty(charset)) {
+                signature.update(content.getBytes());
+            } else {
+                signature.update(content.getBytes(charset));
+            }
+
+            byte[] signed = signature.sign();
+            return Base64Util.encode(signed);
+        } catch (Exception var6) {
+            throw new PayException("RSAcontent = " + content + "; charset = " + charset, var6);
         }
     }
 

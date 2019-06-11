@@ -1,11 +1,12 @@
 package com.viscum.pay.util;
 
-import com.viscum.pay.exception.PayException;
 import com.viscum.pay.base.Standard;
+import com.viscum.pay.exception.PayException;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import java.io.ByteArrayOutputStream;
@@ -21,22 +22,22 @@ import java.util.Map;
 @Slf4j
 public class HttpUtil {
 
-    public static String callPostJSON(String url, JSONObject postData, String contentType, Proxy proxy, TrustManager trustManager) throws PayException {
+    public static byte[] callPostJSON(String url, JSONObject postData, String contentType, Proxy proxy, TrustManager trustManager) throws PayException {
 
         String strPost = postData.toString();
         return callPostStr(url, strPost, contentType, proxy, trustManager);
     }
 
-    public static String callPostStr(String url, String postDataStr, String contentType, Proxy proxy, TrustManager trustManager) throws PayException {
+    public static byte[] callPostStr(String url, String postDataStr, String contentType, Proxy proxy, TrustManager trustManager) throws PayException {
 
         int conTimeout = 30;
         int readTimeout = 30;
         try {
             byte[] res = callAPI(url, Standard.HTTP_POST, postDataStr.getBytes(Standard.ENCODING_UTF8), proxy, trustManager, contentType, conTimeout, readTimeout, Standard.ENCODING_UTF8, null, null);
-            return new String(res, Standard.ENCODING_UTF8);
+            return res;
         } catch (UnsupportedEncodingException e) {
-            log.info("返回报文内容，字符编码出错", e);
-            throw new PayException("H99991", "返回报文内容，字符编码出错", e);
+            log.info("解析报文出错，字符编码出错", e);
+            throw new PayException("H99991", "解析报文出错，字符编码出错", e);
         }
     }
 
@@ -91,12 +92,16 @@ public class HttpUtil {
             // 判断是http请求还是https请求
             if (reqUrl.getProtocol().toLowerCase().equals("https") && trustManager != null) {
                 SSLContext sslContext = null;
+                KeyManager[] keyManage = null;
                 try {
-                    // 实例化SSL上下文
-                    sslContext = SSLContext.getInstance("SSL", "SunJSSE");// 直接用SSL或者TLS也可以( SSLContext.getInstance("TLS"))
+                    // 实例化SSL上下文 直接用SSL或者TLS也可以( SSLContext.getInstance("TLS"))
+                    sslContext = SSLContext.getInstance("SSL", "SunJSSE");
                     TrustManager[] xtmArray = new TrustManager[]{trustManager};
+                    if (trustManager instanceof WxPayX509TrustManager) {
+                        keyManage = ((WxPayX509TrustManager) trustManager).getKeyManage();
+                    }
                     // 初始化SSL上下文
-                    sslContext.init(null, xtmArray, new java.security.SecureRandom());
+                    sslContext.init(keyManage, xtmArray, new java.security.SecureRandom());
                 } catch (Exception e) {
                     log.info("实例化ssl上下文出现异常", e);
                     throw new PayException("H99994", "实例化ssl上下文出现异常", e);
@@ -107,10 +112,11 @@ public class HttpUtil {
                 }
                 // 建立URLConnection连接
                 try {
-                    if (proxy != null)
+                    if (proxy != null) {
                         reqConnection = (HttpsURLConnection) reqUrl.openConnection(proxy);
-                    else
+                    } else {
                         reqConnection = (HttpsURLConnection) reqUrl.openConnection();
+                    }
                 } catch (Exception e) {
                     log.info("建立https连接异常：", e);
                     throw new PayException("H99992", "建立https连接异常", e);

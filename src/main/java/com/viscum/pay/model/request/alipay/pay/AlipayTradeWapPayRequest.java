@@ -3,6 +3,7 @@
  */
 package com.viscum.pay.model.request.alipay.pay;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
@@ -139,16 +140,19 @@ public class AlipayTradeWapPayRequest implements AliRequest<AlipayTradePayRespon
     }
 
     @Override
+    @JsonIgnore
     public String getVersion() {
         return "1.0";
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return AliConstant.PAY_WAP;
     }
 
     @Override
+    @JsonIgnore
     public Class<AlipayTradePayResponse> getResponseClass() {
         return AlipayTradePayResponse.class;
     }

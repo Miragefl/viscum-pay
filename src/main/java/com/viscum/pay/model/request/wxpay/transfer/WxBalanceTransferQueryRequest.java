@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.wxpay.transfer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.WxConstanst;
@@ -25,16 +26,19 @@ public class WxBalanceTransferQueryRequest implements WxRequest<WxBalanceTransfe
     }
 
     @Override
+    @JsonIgnore
     public Boolean needCert() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return WxConstanst.BALANCE_TRANS_QUERY;
     }
 
     @Override
+    @JsonIgnore
     public Class<WxBalanceTransferQueryResponse> getResponseClass() {
         return WxBalanceTransferQueryResponse.class;
     }

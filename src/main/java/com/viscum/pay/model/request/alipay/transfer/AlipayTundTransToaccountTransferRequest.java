@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.alipay.transfer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.enums.PayeeType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -78,16 +79,19 @@ public class AlipayTundTransToaccountTransferRequest implements AliRequest<Alipa
     }
 
     @Override
+    @JsonIgnore
     public String getVersion() {
         return "1.0";
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return AliConstant.TRANSFER_TOACCOUNT;
     }
 
     @Override
+    @JsonIgnore
     public Class<AlipayFundTransToaccountTransferResponse> getResponseClass() {
         return AlipayFundTransToaccountTransferResponse.class;
     }

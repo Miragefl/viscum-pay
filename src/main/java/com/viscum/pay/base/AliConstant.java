@@ -2,7 +2,7 @@ package com.viscum.pay.base;
 
 public class AliConstant {
 
-    public static final String ALI_SERVER_URL = "https://openapi.alipay.com/gateway.do";
+    public static final String ALI_SERVER_URL = "https://openapi.alipaydev.com/gateway.do";
 
     //    public static final String ALI_SERVER_URL = "https://openapi.alipaydev.com/gateway.do";
     // 支付宝方法定义

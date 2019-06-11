@@ -27,7 +27,7 @@ public class AliPayConfig {
     /**
      * 签名方式: RSA, RSA2两个值可选, 必须大写.
      */
-    private Enum<SignType> signType;
+    private SignType signType;
 
     private String notifyUrl;
 
@@ -36,7 +36,7 @@ public class AliPayConfig {
     private String requestUrl;
 
 
-    public AliPayConfig(String appId, String aliPublicKey, String appPrivateKey, String appPublicKey, Enum<SignType> signType, String notifyUrl, String returnUrl,String requestUrl) {
+    public AliPayConfig(String appId, String aliPublicKey, String appPrivateKey, String appPublicKey, SignType signType, String notifyUrl, String returnUrl, String requestUrl) {
         this.appId = appId;
         this.aliPublicKey = aliPublicKey;
         this.appPrivateKey = appPrivateKey;

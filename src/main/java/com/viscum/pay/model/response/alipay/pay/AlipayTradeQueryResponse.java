@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 查询支付订单
+ * @author fenglei
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -48,8 +49,8 @@ public class AlipayTradeQueryResponse extends BaseResponse {
     /**
      * 买家支付宝账号
      */
-    @JsonProperty("buyerLogonId")
-    private String buyer_logon_id;
+    @JsonProperty("buyer_logon_id")
+    private String buyerLogonId;
     /**
      * 交易状态：WAIT_BUYER_PAY（交易创建，等待买家付款）、TRADE_CLOSED（未付款交易超时关闭，或支付完成后全额退款）、TRADE_SUCCESS（交易支付成功）、TRADE_FINISHED（交易结束，不可退款）
      */
@@ -73,13 +74,13 @@ public class AlipayTradeQueryResponse extends BaseResponse {
     /**
      * 结算币种订单金额
      */
-    @JsonProperty("settleAmount")
-    private String settle_amount;
+    @JsonProperty("settle_amount")
+    private String settleAmount;
     /**
      * 订单支付币种
      */
-    @JsonProperty("payCurrency")
-    private String pay_currency;
+    @JsonProperty("pay_currency")
+    private String payCurrency;
     /**
      * 支付币种订单金额
      */

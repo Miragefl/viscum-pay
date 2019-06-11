@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.alipay.refund;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
@@ -30,16 +31,19 @@ public class AlipayTradeFastpayRefundQueryRequest implements AliRequest<AlipayTr
     }
 
     @Override
+    @JsonIgnore
     public String getVersion() {
         return "1.0";
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return AliConstant.REFUND_QUERY;
     }
 
     @Override
+    @JsonIgnore
     public Class<AlipayTradeFastpayRefundQueryResponse> getResponseClass() {
         return AlipayTradeFastpayRefundQueryResponse.class;
     }

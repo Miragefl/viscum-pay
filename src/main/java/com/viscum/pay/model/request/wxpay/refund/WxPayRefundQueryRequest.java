@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.wxpay.refund;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.WxConstanst;
@@ -32,16 +33,19 @@ public class WxPayRefundQueryRequest implements WxRequest<WxPayRefundQueryRespon
     }
 
     @Override
+    @JsonIgnore
     public Boolean needCert() {
         return false;
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return WxConstanst.TRADE_REFUND_QUERY;
     }
 
     @Override
+    @JsonIgnore
     public Class<WxPayRefundQueryResponse> getResponseClass() {
         return WxPayRefundQueryResponse.class;
     }

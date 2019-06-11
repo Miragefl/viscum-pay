@@ -94,31 +94,31 @@ public class StreamUtil {
             this.out = out;
             this.lock = lock;
         }
-
+        @Override
         public void write(int datum) throws IOException {
             synchronized (this.lock) {
                 this.out.write(datum);
             }
         }
-
+        @Override
         public void write(byte[] data) throws IOException {
             synchronized (this.lock) {
                 this.out.write(data);
             }
         }
-
+        @Override
         public void write(byte[] data, int offset, int length) throws IOException {
             synchronized (this.lock) {
                 this.out.write(data, offset, length);
             }
         }
-
+        @Override
         public void flush() throws IOException {
             synchronized (this.lock) {
                 this.out.flush();
             }
         }
-
+        @Override
         public void close() throws IOException {
             synchronized (this.lock) {
                 this.out.close();

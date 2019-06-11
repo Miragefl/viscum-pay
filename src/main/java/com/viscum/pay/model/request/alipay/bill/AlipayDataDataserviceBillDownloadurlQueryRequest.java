@@ -1,8 +1,10 @@
 package com.viscum.pay.model.request.alipay.bill;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
+import com.viscum.pay.enums.BillType;
 import com.viscum.pay.model.request.alipay.AliRequest;
 import com.viscum.pay.model.response.alipay.bill.AlipayDataDataserviceBillDownloadurlQueryResponse;
 import lombok.Data;
@@ -22,7 +24,7 @@ public class AlipayDataDataserviceBillDownloadurlQueryRequest implements AliRequ
      * signcustomer是指基于商户支付宝余额收入及支出等资金变动的帐务账单；
      */
     @JsonProperty("bill_type")
-    private String billType;
+    private BillType billType;
     /**
      * 账单时间：日账单格式为yyyy-MM-dd，月账单格式为yyyy-MM。
      */
@@ -30,22 +32,26 @@ public class AlipayDataDataserviceBillDownloadurlQueryRequest implements AliRequ
     @JsonProperty("bill_date")
     private String billDate;
 
-    public AlipayDataDataserviceBillDownloadurlQueryRequest(String billType, String billDate) {
+    public AlipayDataDataserviceBillDownloadurlQueryRequest(BillType billType, String billDate) {
         this.billType = billType;
         this.billDate = billDate;
     }
 
     @Override
+    @JsonIgnore
     public String getVersion() {
         return "1.0";
     }
 
+
     @Override
+    @JsonIgnore
     public String getMethod() {
         return AliConstant.BILL_DOWNLOAD;
     }
 
     @Override
+    @JsonIgnore
     public Class<AlipayDataDataserviceBillDownloadurlQueryResponse> getResponseClass() {
         return AlipayDataDataserviceBillDownloadurlQueryResponse.class;
     }

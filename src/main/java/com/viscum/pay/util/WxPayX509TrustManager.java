@@ -130,6 +130,7 @@ public class WxPayX509TrustManager implements X509TrustManager {
     /**
      * 校验客户端证书是否被信任
      */
+    @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 //        try {
 //            sunJSSEX509TrustManager.checkClientTrusted(chain, authType);
@@ -141,6 +142,7 @@ public class WxPayX509TrustManager implements X509TrustManager {
     /**
      * 校验服务器端证书是否被信任
      */
+    @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 //        try {
 //            sunJSSEX509TrustManager.checkServerTrusted(chain, authType);
@@ -152,6 +154,7 @@ public class WxPayX509TrustManager implements X509TrustManager {
     /**
      * 返回接受的发行商数组
      */
+    @Override
     public X509Certificate[] getAcceptedIssuers() {
         return sunJSSEX509TrustManager.getAcceptedIssuers();
     }

@@ -1,5 +1,6 @@
 package com.viscum.pay.model.request.wxpay.bill;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.WxConstanst;
@@ -48,16 +49,19 @@ public class WxDownloadBillRequest implements WxRequest<WxDownloadBillResponse> 
     }
 
     @Override
+    @JsonIgnore
     public Boolean needCert() {
         return false;
     }
 
     @Override
+    @JsonIgnore
     public String getMethod() {
         return WxConstanst.BILL_DOWNLOAD;
     }
 
     @Override
+    @JsonIgnore
     public Class<WxDownloadBillResponse> getResponseClass() {
         return WxDownloadBillResponse.class;
     }
