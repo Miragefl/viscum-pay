@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.WxConstanst;
 import com.viscum.pay.model.request.wxpay.WxRequest;
-import com.viscum.pay.model.response.wxpay.refund.WxTradeRefundQueryResponse;
+import com.viscum.pay.model.response.wxpay.refund.WxPayRefundQueryResponse;
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WxTradeRefundQueryRequest implements WxRequest<WxTradeRefundQueryResponse> {
+public class WxPayRefundQueryRequest implements WxRequest<WxPayRefundQueryResponse> {
     @JsonProperty("appid")
     private String appId;
     @JsonProperty("mch_id")
@@ -26,7 +26,7 @@ public class WxTradeRefundQueryRequest implements WxRequest<WxTradeRefundQueryRe
     @JsonProperty("refund_id")
     private String refundId;
 
-    public WxTradeRefundQueryRequest(String outRefundNo, String refundId) {
+    public WxPayRefundQueryRequest(String outRefundNo, String refundId) {
         this.outRefundNo = outRefundNo;
         this.refundId = refundId;
     }
@@ -42,7 +42,7 @@ public class WxTradeRefundQueryRequest implements WxRequest<WxTradeRefundQueryRe
     }
 
     @Override
-    public Class<WxTradeRefundQueryResponse> getResponseClass() {
-        return WxTradeRefundQueryResponse.class;
+    public Class<WxPayRefundQueryResponse> getResponseClass() {
+        return WxPayRefundQueryResponse.class;
     }
 }

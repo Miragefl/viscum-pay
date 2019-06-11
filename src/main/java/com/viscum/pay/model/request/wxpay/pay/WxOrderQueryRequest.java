@@ -5,7 +5,7 @@ import com.viscum.pay.enums.SignType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.model.request.wxpay.WxRequest;
-import com.viscum.pay.model.response.wxpay.pay.WxTradePayQueryResponse;
+import com.viscum.pay.model.response.wxpay.pay.WxOrderQueryResponse;
 import lombok.Data;
 
 
@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WxTradePayQueryRequest implements WxRequest<WxTradePayQueryResponse> {
+public class WxOrderQueryRequest implements WxRequest<WxOrderQueryResponse> {
     /**
      * 应用APPID
      */
@@ -47,12 +47,12 @@ public class WxTradePayQueryRequest implements WxRequest<WxTradePayQueryResponse
     @JsonProperty("sign_type")
     private SignType signType = SignType.MD5;
 
-    public WxTradePayQueryRequest(String transactionId, String outTradeNo) {
+    public WxOrderQueryRequest(String transactionId, String outTradeNo) {
         this.transactionId = transactionId;
         this.outTradeNo = outTradeNo;
     }
 
-    public WxTradePayQueryRequest(String transactionId, String outTradeNo, SignType signType) {
+    public WxOrderQueryRequest(String transactionId, String outTradeNo, SignType signType) {
         this(transactionId, outTradeNo);
         this.signType = signType;
     }
@@ -68,7 +68,7 @@ public class WxTradePayQueryRequest implements WxRequest<WxTradePayQueryResponse
     }
 
     @Override
-    public Class<WxTradePayQueryResponse> getResponseClass() {
-        return WxTradePayQueryResponse.class;
+    public Class<WxOrderQueryResponse> getResponseClass() {
+        return WxOrderQueryResponse.class;
     }
 }

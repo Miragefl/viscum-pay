@@ -5,7 +5,7 @@ import com.viscum.pay.enums.SignType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.model.request.wxpay.WxRequest;
-import com.viscum.pay.model.response.wxpay.refund.WxTradeRefundResponse;
+import com.viscum.pay.model.response.wxpay.refund.WxPayRefundResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WxTradeRefundRequest implements WxRequest<WxTradeRefundResponse> {
+public class WxPayRefundRequest implements WxRequest<WxPayRefundResponse> {
     /**
      * 公众账号ID
      */
@@ -72,7 +72,7 @@ public class WxTradeRefundRequest implements WxRequest<WxTradeRefundResponse> {
     @JsonProperty("notify_url")
     private String notifyUrl;
 
-    public WxTradeRefundRequest(String transactionId, String outTradeNo, String outRefundNo, String totalAmt, String refundAmt, String notifyUrl) {
+    public WxPayRefundRequest(String transactionId, String outTradeNo, String outRefundNo, String totalAmt, String refundAmt, String notifyUrl) {
         this.transactionId = transactionId;
         this.outTradeNo = outTradeNo;
         this.outRefundNo = outRefundNo;
@@ -92,7 +92,7 @@ public class WxTradeRefundRequest implements WxRequest<WxTradeRefundResponse> {
     }
 
     @Override
-    public Class<WxTradeRefundResponse> getResponseClass() {
-        return WxTradeRefundResponse.class;
+    public Class<WxPayRefundResponse> getResponseClass() {
+        return WxPayRefundResponse.class;
     }
 }

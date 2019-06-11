@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "xml")
-public class WxTradeRefundQueryResponse extends BaseResponse {
+public class WxPayRefundQueryResponse extends BaseResponse {
     @XmlElement(name = "return_code")
     private String returnCode;
     @XmlElement(name = "return_msg")

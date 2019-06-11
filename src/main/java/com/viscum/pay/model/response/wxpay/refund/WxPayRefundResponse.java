@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "xml")
-public class WxTradeRefundResponse extends BaseResponse {
+public class WxPayRefundResponse extends BaseResponse {
     /**
      * 业务结果(SUCCESS/FAIL
      * SUCCESS退款申请接收成功，结果通过退款查询接口查询

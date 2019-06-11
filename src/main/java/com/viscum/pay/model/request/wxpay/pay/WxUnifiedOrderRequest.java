@@ -6,7 +6,7 @@ import com.viscum.pay.enums.TradeType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.model.request.wxpay.WxRequest;
-import com.viscum.pay.model.response.wxpay.pay.WxTradePayResponse;
+import com.viscum.pay.model.response.wxpay.pay.WxUnifiedOrderResponse;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WxTradePayRequest implements WxRequest<WxTradePayResponse> {
+public class WxUnifiedOrderRequest implements WxRequest<WxUnifiedOrderResponse> {
     /**
      * 应用ID
      */
@@ -80,7 +80,7 @@ public class WxTradePayRequest implements WxRequest<WxTradePayResponse> {
     @JsonProperty("spbill_create_ip")
     private String spbillCreateIp;
 
-    public WxTradePayRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp) {
+    public WxUnifiedOrderRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp) {
         this.body = body;
         this.outTradeNo = outTradeNo;
         this.totalAmt = totalAmt;
@@ -88,7 +88,7 @@ public class WxTradePayRequest implements WxRequest<WxTradePayResponse> {
         this.spbillCreateIp = spbillCreateIp;
     }
 
-    public WxTradePayRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp, String tradeType, String openId) {
+    public WxUnifiedOrderRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp, String tradeType, String openId) {
         this.body = body;
         this.outTradeNo = outTradeNo;
         this.totalAmt = totalAmt;
@@ -99,7 +99,7 @@ public class WxTradePayRequest implements WxRequest<WxTradePayResponse> {
         this.spbillCreateIp = spbillCreateIp;
     }
 
-    public WxTradePayRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp, String tradeType, String openId, SignType signType) {
+    public WxUnifiedOrderRequest(String body, String outTradeNo, String totalAmt, String notifyUrl, String spbillCreateIp, String tradeType, String openId, SignType signType) {
         this(body, outTradeNo, totalAmt, notifyUrl, spbillCreateIp, tradeType, openId);
         this.signType = signType;
     }
@@ -115,7 +115,7 @@ public class WxTradePayRequest implements WxRequest<WxTradePayResponse> {
     }
 
     @Override
-    public Class<WxTradePayResponse> getResponseClass() {
-        return WxTradePayResponse.class;
+    public Class<WxUnifiedOrderResponse> getResponseClass() {
+        return WxUnifiedOrderResponse.class;
     }
 }
