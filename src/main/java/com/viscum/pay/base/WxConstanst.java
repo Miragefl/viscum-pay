@@ -2,6 +2,7 @@ package com.viscum.pay.base;
 
 public class WxConstanst {
 
+    public static final String SERVER_URL = "https://api.mch.weixin.qq.com";
     /**
      * 微信预下单
      */
@@ -39,4 +40,6 @@ public class WxConstanst {
      * 查询银行卡转账订单
      */
     public static final String BANK_TRANS_QUERY = "/mmpaysptrans/query_bank";
+
+    public static final String RISK_GET_PUBLIC_KEY = "/risk/getpublickey";
 }

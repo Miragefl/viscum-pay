@@ -6,9 +6,9 @@ package com.viscum.pay.client;
 import com.viscum.pay.base.Standard;
 import com.viscum.pay.config.AliPayConfig;
 import com.viscum.pay.exception.PayException;
-import com.viscum.pay.model.PayRequest;
-import com.viscum.pay.model.PayResponse;
 import com.viscum.pay.model.request.alipay.AliRequest;
+import com.viscum.pay.model.response.BaseResponse;
+import com.viscum.pay.model.request.alipay.AliCommonRequest;
 import com.viscum.pay.util.*;
 import lombok.Data;
 import net.sf.json.JSONObject;
@@ -31,7 +31,7 @@ import java.util.List;
  * @since 2019-06-10
  */
 @Data
-public class AliPayClient implements DefaultClient {
+public class AliPayClient {
 
     private Logger logger = LoggerFactory.getLogger(AliPayClient.class);
 
@@ -41,10 +41,9 @@ public class AliPayClient implements DefaultClient {
         this.aliPayConfig = aliPayConfig;
     }
 
-    @Override
-    public <T extends PayResponse> T execute(PayRequest<T> request) throws IOException, PayException {
+    public <T extends BaseResponse> T execute(AliRequest<T> request) throws IOException, PayException {
         String biz_content = JsonParser.modelToJSON(request).replaceAll("\r\n", "").replaceAll("\\s+", "");
-        AliRequest aliRequest = new AliRequest(
+        AliCommonRequest aliCommonRequest = new AliCommonRequest(
                 aliPayConfig.getAppId(),
                 request.getMethod(),
                 request.getVersion(),
@@ -52,15 +51,15 @@ public class AliPayClient implements DefaultClient {
                 aliPayConfig.getNotifyUrl(),
                 aliPayConfig.getReturnUrl(),
                 biz_content);
-        aliRequest.setSign(getAliSign(aliRequest));
-        String requestStr = generateRequestParam(aliRequest);
+        aliCommonRequest.setSign(getAliSign(aliCommonRequest));
+        String requestStr = generateRequestParam(aliCommonRequest);
         String responseStr = HttpUtil.callPostStr(aliPayConfig.getRequestUrl(), requestStr, "form", null, null);
 
         // 返回结果验签
-        if (!syncVerifySign(JSONObject.fromObject(responseStr), aliRequest.getMethod())) {
+        if (!syncVerifySign(JSONObject.fromObject(responseStr), aliCommonRequest.getMethod())) {
             throw new PayException("返回报文签名不正确，疑似篡改！");
         }
-        String content = JSONObject.fromObject(responseStr).get(aliRequest.getMethod().replaceAll("\\.", "\\_") + "_response").toString();
+        String content = JSONObject.fromObject(responseStr).get(aliCommonRequest.getMethod().replaceAll("\\.", "\\_") + "_response").toString();
         try {
             return JsonParser.JSONToModel(content, request.getResponseClass());
         } catch (IOException e) {
@@ -71,18 +70,18 @@ public class AliPayClient implements DefaultClient {
     /**
      * 支付宝生成签名方法
      *
-     * @param aliRequest 支付宝请求参数
+     * @param aliCommonRequest 支付宝请求参数
      * @return
      * @throws PayException
      */
-    public String getAliSign(AliRequest aliRequest) throws PayException {
+    public String getAliSign(AliCommonRequest aliCommonRequest) throws PayException {
         // =========== 生成签名开始 ===========
         try {
-            JSONObject requestJson = JSONObject.fromObject(JsonParser.modelToJSON(aliRequest));
+            JSONObject requestJson = JSONObject.fromObject(JsonParser.modelToJSON(aliCommonRequest));
             String signContent = getSignContent(requestJson);
             logger.info("排序后的生成签名字段：" + signContent);
             // 生成签名
-            String rsaSign = RSAUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliRequest.getCharset());
+            String rsaSign = RSAUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliCommonRequest.getCharset());
             logger.info("生成签名：" + rsaSign);
             return rsaSign;
         } catch (Exception e) {
@@ -93,18 +92,18 @@ public class AliPayClient implements DefaultClient {
     /**
      * 生成摘要后地址
      *
-     * @param aliRequest 支付宝请求参数
+     * @param aliCommonRequest 支付宝请求参数
      * @return
      * @throws PayException
      */
-    public String generateRequestParam(AliRequest aliRequest) throws PayException {
+    public String generateRequestParam(AliCommonRequest aliCommonRequest) throws PayException {
         // 生成摘要后的地址
         StringBuilder sb = new StringBuilder();
         try {
-            JSONObject requestJson = JSONObject.fromObject(JsonParser.modelToJSON(aliRequest));
+            JSONObject requestJson = JSONObject.fromObject(JsonParser.modelToJSON(aliCommonRequest));
             List<String> keys = new ArrayList(requestJson.keySet());
             for (int i = 0; i < keys.size(); i++) {
-                sb.append("&" + keys.get(i) + "=" + URLEncoder.encode(requestJson.getString(keys.get(i)), aliRequest.getCharset()));
+                sb.append("&" + keys.get(i) + "=" + URLEncoder.encode(requestJson.getString(keys.get(i)), aliCommonRequest.getCharset()));
             }
             return sb.substring(1);
         } catch (UnsupportedEncodingException e) {
@@ -162,4 +161,5 @@ public class AliPayClient implements DefaultClient {
         }
         return content.toString();
     }
+
 }

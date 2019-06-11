@@ -2,8 +2,8 @@ package com.viscum.pay.client;
 
 import com.viscum.pay.config.WxPayConfig;
 import com.viscum.pay.exception.PayException;
-import com.viscum.pay.model.PayRequest;
-import com.viscum.pay.model.PayResponse;
+import com.viscum.pay.model.response.BaseResponse;
+import com.viscum.pay.model.request.wxpay.WxRequest;
 import com.viscum.pay.util.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class WxPayClient implements DefaultClient {
+public class WxPayClient {
 
     private WxPayConfig wxPayConfig;
 
@@ -32,7 +32,7 @@ public class WxPayClient implements DefaultClient {
         this.wxPayConfig = wxPayConfig;
     }
 
-    public <T extends PayResponse> T execute(PayRequest<T> request) throws PayException {
+    public <T extends BaseResponse> T execute(WxRequest<T> request) throws PayException {
         TrustManager trustManager = null;
         if (request.needCert()) {
             try {
@@ -79,8 +79,8 @@ public class WxPayClient implements DefaultClient {
             JSONObject json = JSONObject.fromObject(JsonParser.modelToJSON(request));
             json.put("appid", wxPayConfig.getAppId());
             json.put("mch_id", wxPayConfig.getMchId());
-            String signContent = getSignContent(json, wxPayConfig.getAppSecret());
-            String sign = genDigest(signContent);
+            String signContent = getSignContent(json, wxPayConfig.getMchKey());
+            String sign = genDigest(signContent).toUpperCase();
             json.put("sign", sign);
             String params = XmlUtil.parseMapToXml(json).getRootElement().asXML();
             log.info("上送微信接口报文：" + params);

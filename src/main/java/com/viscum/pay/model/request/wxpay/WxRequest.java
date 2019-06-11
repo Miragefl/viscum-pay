@@ -1,7 +1,7 @@
 /*
  * WxRequest.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
  */
-package com.viscum.pay.model.request.alipay;
+package com.viscum.pay.model.request.wxpay;
 
 import com.viscum.pay.model.request.BaseRequest;
 import com.viscum.pay.model.response.BaseResponse;
@@ -14,6 +14,6 @@ import com.viscum.pay.model.response.BaseResponse;
  * @Author fenglei
  * @Date 2019-06-11
  */
-public interface AliRequest<T extends BaseResponse> extends BaseRequest<T> {
-   String getVersion();
+public interface WxRequest<T extends BaseResponse> extends BaseRequest<T> {
+    Boolean needCert();
 }

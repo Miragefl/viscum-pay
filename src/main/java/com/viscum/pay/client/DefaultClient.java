@@ -4,8 +4,8 @@
 package com.viscum.pay.client;
 
 import com.viscum.pay.exception.PayException;
-import com.viscum.pay.model.PayRequest;
-import com.viscum.pay.model.PayResponse;
+import com.viscum.pay.model.request.BaseRequest;
+import com.viscum.pay.model.response.BaseResponse;
 
 import java.io.IOException;
 
@@ -19,8 +19,6 @@ import java.io.IOException;
  */
 public interface DefaultClient {
 
-    //void setAliPayConfig(AliPayConfig config);
-
-    <T extends PayResponse> T execute(PayRequest<T> request) throws IOException, PayException;
+    <T extends BaseResponse> T execute(BaseRequest<T> request) throws IOException, PayException;
 
 }
