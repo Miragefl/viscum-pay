@@ -147,7 +147,7 @@ public class HttpUtil {
                     reqConnection.setRequestProperty(e.getKey(), String.valueOf(e.getValue()));
                 }
             }
-            if (!reqConnection.getRequestProperties().containsKey("Content-Type")) {
+            if (!reqConnection.getRequestProperties().containsKey(  "Content-Type")) {
                 reqConnection.setRequestProperty("Content-Type", headContentType.toString());
             }
             reqConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0");

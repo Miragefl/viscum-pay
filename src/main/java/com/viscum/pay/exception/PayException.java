@@ -2,6 +2,11 @@ package com.viscum.pay.exception;
 
 import com.viscum.pay.base.Standard;
 
+/**
+ * 异常类
+ *
+ * @author fenglei
+ */
 public class PayException extends Exception {
 
     /**

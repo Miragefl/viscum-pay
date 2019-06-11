@@ -6,6 +6,8 @@ import lombok.Data;
 
 /**
  * 退款使用的资金渠道
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

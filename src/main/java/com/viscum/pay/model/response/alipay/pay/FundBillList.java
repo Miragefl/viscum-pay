@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * 交易支付使用的资金渠道
+ *
+ * @author fenglei
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class FundBillList {

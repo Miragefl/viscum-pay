@@ -6,6 +6,7 @@ import lombok.Data;
 
 /**
  * 退回的前置资产列表
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
