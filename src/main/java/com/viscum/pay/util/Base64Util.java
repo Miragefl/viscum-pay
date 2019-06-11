@@ -72,59 +72,46 @@ public final class Base64Util {
      * @return Encoded Base64 array
      */
     public static String encode(byte[] binaryData) {
-
         if (binaryData == null) {
             return null;
         }
-
         int lengthDataBits = binaryData.length * EIGHT_BIT;
         if (lengthDataBits == 0) {
             return "";
         }
-
         int fewerThan24bits = lengthDataBits % TWENTY_FOUR_BIT_GROUP;
         int numberTriplets = lengthDataBits / TWENTY_FOUR_BIT_GROUP;
         int numberQuartet = fewerThan24bits != 0 ? numberTriplets + 1 : numberTriplets;
         char[] encodedData = null;
-
         encodedData = new char[numberQuartet * 4];
-
         byte k = 0, l = 0, b1 = 0, b2 = 0, b3 = 0;
-
         int encodedIndex = 0;
         int dataIndex = 0;
         if (F_DEBUG) {
             System.out.println("number of triplets = " + numberTriplets);
         }
-
         for (int i = 0; i < numberTriplets; i++) {
             b1 = binaryData[dataIndex++];
             b2 = binaryData[dataIndex++];
             b3 = binaryData[dataIndex++];
-
             if (F_DEBUG) {
                 System.out.println("b1= " + b1 + ", b2= " + b2 + ", b3= " + b3);
             }
-
             l = (byte) (b2 & 0x0f);
             k = (byte) (b1 & 0x03);
-
             byte val1 = ((b1 & SIGN) == 0) ? (byte) (b1 >> 2) : (byte) ((b1) >> 2 ^ 0xc0);
             byte val2 = ((b2 & SIGN) == 0) ? (byte) (b2 >> 4) : (byte) ((b2) >> 4 ^ 0xf0);
             byte val3 = ((b3 & SIGN) == 0) ? (byte) (b3 >> 6) : (byte) ((b3) >> 6 ^ 0xfc);
-
             if (F_DEBUG) {
                 System.out.println("val2 = " + val2);
                 System.out.println("k4   = " + (k << 4));
                 System.out.println("vak  = " + (val2 | (k << 4)));
             }
-
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val1];
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val2 | (k << 4)];
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[(l << 2) | val3];
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[b3 & 0x3f];
         }
-
         // form integral number of 6-bit groups
         if (fewerThan24bits == EIGHT_BIT) {
             b1 = binaryData[dataIndex];
@@ -143,16 +130,13 @@ public final class Base64Util {
             b2 = binaryData[dataIndex + 1];
             l = (byte) (b2 & 0x0f);
             k = (byte) (b1 & 0x03);
-
             byte val1 = ((b1 & SIGN) == 0) ? (byte) (b1 >> 2) : (byte) ((b1) >> 2 ^ 0xc0);
             byte val2 = ((b2 & SIGN) == 0) ? (byte) (b2 >> 4) : (byte) ((b2) >> 4 ^ 0xf0);
-
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val1];
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val2 | (k << 4)];
             encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[l << 2];
             encodedData[encodedIndex++] = PAD;
         }
-
         return new String(encodedData);
     }
 
@@ -163,69 +147,54 @@ public final class Base64Util {
      * @return Array containind decoded data.
      */
     public static byte[] decode(String encoded) {
-
         if (encoded == null) {
             return null;
         }
-
         char[] base64Data = encoded.toCharArray();
         // remove white spaces
         int len = removeWhiteSpace(base64Data);
-
         if (len % FOUR_BYTE != 0) {
             //should be divisible by four
             return null;
         }
-
         int numberQuadruple = (len / FOUR_BYTE);
-
         if (numberQuadruple == 0) {
             return new byte[0];
         }
-
         byte[] decodedData = null;
         byte b1 = 0, b2 = 0, b3 = 0, b4 = 0;
         char d1 = 0, d2 = 0, d3 = 0, d4 = 0;
-
         int i = 0;
         int encodedIndex = 0;
         int dataIndex = 0;
         decodedData = new byte[(numberQuadruple) * 3];
-
         for (; i < numberQuadruple - 1; i++) {
-
             if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))
                     || !isData((d3 = base64Data[dataIndex++]))
                     || !isData((d4 = base64Data[dataIndex++]))) {
                 return null;
             }//if found "no data" just return null
-
             b1 = BASE64_ALPHABET[d1];
             b2 = BASE64_ALPHABET[d2];
             b3 = BASE64_ALPHABET[d3];
             b4 = BASE64_ALPHABET[d4];
-
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
             decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);
         }
-
         if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))) {
             //if found "no data" just return null
             return null;
         }
-
         b1 = BASE64_ALPHABET[d1];
         b2 = BASE64_ALPHABET[d2];
-
         d3 = base64Data[dataIndex++];
         d4 = base64Data[dataIndex++];
         //Check if they are PAD characters
         if (!isData((d3)) || !isData((d4))) {
             if (isPad(d3) && isPad(d4)) {
                 //last 4 bits should be zero
-                if ((b2 & 0xf) != 0)
-                {
+                if ((b2 & 0xf) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 1];
@@ -235,8 +204,7 @@ public final class Base64Util {
             } else if (!isPad(d3) && isPad(d4)) {
                 b3 = BASE64_ALPHABET[d3];
                 //last 2 bits should be zero
-                if ((b3 & 0x3) != 0)
-                {
+                if ((b3 & 0x3) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 2];
@@ -253,9 +221,7 @@ public final class Base64Util {
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
             decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);
-
         }
-
         return decodedData;
     }
 

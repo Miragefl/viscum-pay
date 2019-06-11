@@ -93,9 +93,9 @@ public class RsaUtil {
      * @throws PayException
      */
     public static String rsaSign(String content, String privateKey, String charset, String signType) throws PayException {
-        if ("RSA".equals(signType)) {
+        if (SignType.RSA1.toString().equals(signType)) {
             return rsaSign(content, privateKey, charset);
-        } else if ("RSA2".equals(signType)) {
+        } else if (SignType.RSA2.toString().equals(signType)) {
             return rsa256Sign(content, privateKey, charset);
         } else {
             throw new PayException("Sign Type is Not Support : signType=" + signType);
