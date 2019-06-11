@@ -1,10 +1,10 @@
-package com.viscum.pay.model.request.alipay.transfer;
+package com.viscum.pay.model.request.alipay.refund;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.refund.AliTradeRefundQueryResponse;
+import com.viscum.pay.model.response.alipay.refund.AlipayTradeFastpayRefundQueryResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTradeRefundQueryRequest implements AliRequest<AliTradeRefundQueryResponse> {
+public class AlipayTradeFastpayRefundQueryRequest implements AliRequest<AlipayTradeFastpayRefundQueryResponse> {
     @JsonProperty("trade_no")
     private String tradeNo;
     @JsonProperty("out_trade_no")
@@ -23,7 +23,7 @@ public class AliTradeRefundQueryRequest implements AliRequest<AliTradeRefundQuer
     @JsonProperty("out_request_no")
     private String outRequestNo;
 
-    public AliTradeRefundQueryRequest(String tradeNo, String outTradeNo, @NotBlank String outRequestNo) {
+    public AlipayTradeFastpayRefundQueryRequest(String tradeNo, String outTradeNo, @NotBlank String outRequestNo) {
         this.tradeNo = tradeNo;
         this.outTradeNo = outTradeNo;
         this.outRequestNo = outRequestNo;
@@ -40,7 +40,7 @@ public class AliTradeRefundQueryRequest implements AliRequest<AliTradeRefundQuer
     }
 
     @Override
-    public Class<AliTradeRefundQueryResponse> getResponseClass() {
-        return AliTradeRefundQueryResponse.class;
+    public Class<AlipayTradeFastpayRefundQueryResponse> getResponseClass() {
+        return AlipayTradeFastpayRefundQueryResponse.class;
     }
 }

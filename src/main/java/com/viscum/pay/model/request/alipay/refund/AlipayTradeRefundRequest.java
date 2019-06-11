@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.refund.AliTradeRefundResponse;
+import com.viscum.pay.model.response.alipay.refund.AlipayTradeRefundResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTradeRefundRequest implements AliRequest<AliTradeRefundResponse> {
+public class AlipayTradeRefundRequest implements AliRequest<AlipayTradeRefundResponse> {
     @JsonProperty("out_trade_no")
     private String outTradeNo;
 
@@ -30,7 +30,7 @@ public class AliTradeRefundRequest implements AliRequest<AliTradeRefundResponse>
     @JsonProperty("outRequestNo")
     private String outRequestNo;
 
-    public AliTradeRefundRequest(String outTradeNo, String tradeNo, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String refundAmt, @NotBlank String outRequestNo) {
+    public AlipayTradeRefundRequest(String outTradeNo, String tradeNo, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String refundAmt, @NotBlank String outRequestNo) {
         this.outTradeNo = outTradeNo;
         this.tradeNo = tradeNo;
         this.refundAmt = refundAmt;
@@ -48,7 +48,7 @@ public class AliTradeRefundRequest implements AliRequest<AliTradeRefundResponse>
     }
 
     @Override
-    public Class<AliTradeRefundResponse> getResponseClass() {
-        return AliTradeRefundResponse.class;
+    public Class<AlipayTradeRefundResponse> getResponseClass() {
+        return AlipayTradeRefundResponse.class;
     }
 }

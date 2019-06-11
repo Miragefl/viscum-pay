@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.transfer.AliTransferQueryResponse;
+import com.viscum.pay.model.response.alipay.transfer.AlipayFundTransOrderQueryResponse;
 import lombok.Data;
 
 /**
@@ -12,19 +12,19 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTransferQueryRequest implements AliRequest<AliTransferQueryResponse> {
+public class AlipayFundTransOrderQueryRequest implements AliRequest<AlipayFundTransOrderQueryResponse> {
 
     @JsonProperty("out_biz_no")
     private String outBizNo;
     @JsonProperty("order_id")
     private String orderId;
 
-    public AliTransferQueryRequest(String outBizNo, String orderId) {
+    public AlipayFundTransOrderQueryRequest(String outBizNo, String orderId) {
         this.outBizNo = outBizNo;
         this.orderId = orderId;
     }
 
-    public AliTransferQueryRequest(String outBizNo) {
+    public AlipayFundTransOrderQueryRequest(String outBizNo) {
         this.outBizNo = outBizNo;
     }
 
@@ -39,7 +39,7 @@ public class AliTransferQueryRequest implements AliRequest<AliTransferQueryRespo
     }
 
     @Override
-    public Class<AliTransferQueryResponse> getResponseClass() {
-        return AliTransferQueryResponse.class;
+    public Class<AlipayFundTransOrderQueryResponse> getResponseClass() {
+        return AlipayFundTransOrderQueryResponse.class;
     }
 }

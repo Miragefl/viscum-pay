@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTransferQueryResponse extends BaseResponse {
+public class AlipayFundTransOrderQueryResponse extends BaseResponse {
     /**
      * 网关返回码
      */

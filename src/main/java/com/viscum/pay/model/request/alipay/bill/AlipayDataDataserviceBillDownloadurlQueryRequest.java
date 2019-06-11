@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.bill.AliBillDownloadUrlQueryResponse;
+import com.viscum.pay.model.response.alipay.bill.AlipayDataDataserviceBillDownloadurlQueryResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliBillDownloadUrlQueryRequest implements AliRequest<AliBillDownloadUrlQueryResponse> {
+public class AlipayDataDataserviceBillDownloadurlQueryRequest implements AliRequest<AlipayDataDataserviceBillDownloadurlQueryResponse> {
 
     /**
      * 账单类型，商户通过接口或商户经开放平台授权后其所属服务商通过接口可以获取以下账单类型：trade、signcustomer；
@@ -30,7 +30,7 @@ public class AliBillDownloadUrlQueryRequest implements AliRequest<AliBillDownloa
     @JsonProperty("bill_date")
     private String billDate;
 
-    public AliBillDownloadUrlQueryRequest(String billType, String billDate) {
+    public AlipayDataDataserviceBillDownloadurlQueryRequest(String billType, String billDate) {
         this.billType = billType;
         this.billDate = billDate;
     }
@@ -46,7 +46,7 @@ public class AliBillDownloadUrlQueryRequest implements AliRequest<AliBillDownloa
     }
 
     @Override
-    public Class<AliBillDownloadUrlQueryResponse> getResponseClass() {
-        return AliBillDownloadUrlQueryResponse.class;
+    public Class<AlipayDataDataserviceBillDownloadurlQueryResponse> getResponseClass() {
+        return AlipayDataDataserviceBillDownloadurlQueryResponse.class;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * AliWapPayRequest.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
+ * AlipayTradeWapPayRequest.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
  */
 package com.viscum.pay.model.request.alipay.pay;
 
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.pay.AliTradeAppPayResponse;
+import com.viscum.pay.model.response.alipay.pay.AlipayTradePayResponse;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliWapPayRequest implements AliRequest<AliTradeAppPayResponse> {
+public class AlipayTradeWapPayRequest implements AliRequest<AlipayTradePayResponse> {
     /**
      * 非必传
      * 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
@@ -132,7 +132,7 @@ public class AliWapPayRequest implements AliRequest<AliTradeAppPayResponse> {
     @JsonProperty("ext_user_info")
     private String extUserInfo;
 
-    public AliWapPayRequest(String subject, String outTradeNo, String totalAmount) {
+    public AlipayTradeWapPayRequest(String subject, String outTradeNo, String totalAmount) {
         this.subject = subject;
         this.outTradeNo = outTradeNo;
         this.totalAmount = totalAmount;
@@ -149,7 +149,7 @@ public class AliWapPayRequest implements AliRequest<AliTradeAppPayResponse> {
     }
 
     @Override
-    public Class<AliTradeAppPayResponse> getResponseClass() {
-        return AliTradeAppPayResponse.class;
+    public Class<AlipayTradePayResponse> getResponseClass() {
+        return AlipayTradePayResponse.class;
     }
 }

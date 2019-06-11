@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliBillDownloadUrlQueryResponse extends BaseResponse {
+public class AlipayDataDataserviceBillDownloadurlQueryResponse extends BaseResponse {
     /**
      * 网关返回码
      */

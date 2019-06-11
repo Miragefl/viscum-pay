@@ -5,7 +5,7 @@ import com.viscum.pay.enums.PayeeType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.transfer.AliTransferResponse;
+import com.viscum.pay.model.response.alipay.transfer.AlipayFundTransToaccountTransferResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTransferRequest implements AliRequest<AliTransferResponse> {
+public class AlipayTundTransToaccountTransferRequest implements AliRequest<AlipayFundTransToaccountTransferResponse> {
     /**
      * 商户转账唯一订单号。发起转账来源方定义的转账单据ID，用于将转账回执通知给来源方。
      * 不同来源方给出的ID可以重复，同一个来源方必须保证其ID的唯一性。
@@ -59,7 +59,7 @@ public class AliTransferRequest implements AliRequest<AliTransferResponse> {
      */
     private String remark;
 
-    public AliTransferRequest(@NotBlank String outBizNo, PayeeType payeeType, @NotBlank String payeeAccount, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String amount, String remark) {
+    public AlipayTundTransToaccountTransferRequest(@NotBlank String outBizNo, PayeeType payeeType, @NotBlank String payeeAccount, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String amount, String remark) {
         this.outBizNo = outBizNo;
         this.payeeType = payeeType;
         this.payeeAccount = payeeAccount;
@@ -67,7 +67,7 @@ public class AliTransferRequest implements AliRequest<AliTransferResponse> {
         this.remark = remark;
     }
 
-    public AliTransferRequest(@NotBlank String outBizNo, PayeeType payeeType, @NotBlank String payeeAccount, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String amount, String remark, String payerShowName, String payeeRealName) {
+    public AlipayTundTransToaccountTransferRequest(@NotBlank String outBizNo, PayeeType payeeType, @NotBlank String payeeAccount, @Pattern(regexp = "(?!^0*(\\.0{1,2})?$)^\\d{1,13}(\\.\\d{1,2})?$", message = "请输入正确的金额") String amount, String remark, String payerShowName, String payeeRealName) {
         this.outBizNo = outBizNo;
         this.payeeType = payeeType;
         this.payeeAccount = payeeAccount;
@@ -88,7 +88,7 @@ public class AliTransferRequest implements AliRequest<AliTransferResponse> {
     }
 
     @Override
-    public Class<AliTransferResponse> getResponseClass() {
-        return AliTransferResponse.class;
+    public Class<AlipayFundTransToaccountTransferResponse> getResponseClass() {
+        return AlipayFundTransToaccountTransferResponse.class;
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.base.AliConstant;
 import com.viscum.pay.model.request.alipay.AliRequest;
-import com.viscum.pay.model.response.alipay.pay.AliTradeAppPayResponse;
+import com.viscum.pay.model.response.alipay.pay.AlipayTradePayResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTradeAppPayRequest implements AliRequest<AliTradeAppPayResponse> {
+public class AlipayTradeAppPayRequest implements AliRequest<AlipayTradePayResponse> {
     /**
      * 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
      */
@@ -48,12 +48,12 @@ public class AliTradeAppPayRequest implements AliRequest<AliTradeAppPayResponse>
     @JsonProperty("out_trade_no")
     private String outTradeNo;
 
-    public AliTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo, String timeoutExpress) {
+    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo, String timeoutExpress) {
         this(body, subject, totalAmt, productCode, outTradeNo);
         this.timeoutExpress = timeoutExpress;
     }
 
-    public AliTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo) {
+    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo) {
         this.body = body;
         this.subject = subject;
         this.totalAmt = totalAmt;
@@ -75,7 +75,7 @@ public class AliTradeAppPayRequest implements AliRequest<AliTradeAppPayResponse>
 
     @Override
     @JsonIgnore
-    public Class<AliTradeAppPayResponse> getResponseClass() {
-        return AliTradeAppPayResponse.class;
+    public Class<AlipayTradePayResponse> getResponseClass() {
+        return AlipayTradePayResponse.class;
     }
 }

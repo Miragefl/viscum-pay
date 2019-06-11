@@ -12,7 +12,7 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class AliTradePayQueryResponse extends BaseResponse {
+public class AlipayTradeQueryResponse extends BaseResponse {
     /**
      * 网关返回码
      */

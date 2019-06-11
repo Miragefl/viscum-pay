@@ -7,9 +7,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 支付宝退款
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AliTradeRefundQueryResponse extends BaseResponse {
+public class AlipayTradeRefundResponse extends BaseResponse {
     /**
      * 网关返回码
      */
@@ -38,56 +41,58 @@ public class AliTradeRefundQueryResponse extends BaseResponse {
     @JsonProperty("trade_no")
     private String tradeNo;
     /**
-     * 创建交易传入的商户订单号
+     * 商户订单号
      */
     @JsonProperty("out_trade_no")
     private String outTradeNo;
     /**
-     * 本笔退款对应的退款请求号
+     * 用户的登录id
      */
-    @JsonProperty("out_request_no")
-    private String outRequestNo;
+    @JsonProperty("buyer_logon_id")
+    private String buyerLogonId;
     /**
-     * 发起退款时，传入的退款原因
+     * 本次退款是否发生了资金变化
      */
-    @JsonProperty("refund_reason")
-    private String refundReason;
+    @JsonProperty("fund_change")
+    private String fundChange;
     /**
-     * 该笔退款所对应的交易的订单金额
+     * 退款总金额
      */
-    @JsonProperty("total_amount")
-    private String totalAmount;
+    @JsonProperty("refund_fee")
+    private String refundFee;
     /**
-     * 本次退款请求，对应的退款金额
+     * 退款币种信息
      */
-    @JsonProperty("refund_amount")
-    private String refundAmount;
+    @JsonProperty("refund_currency")
+    private String refundCurrency;
     /**
-     * 退分账明细信息
-     */
-    @JsonProperty("refund_royaltys")
-    private List<RefundRoyaltyResult> refundRoyaltys;
-    /**
-     * 退款时间；
-     * 默认不返回该信息，需与支付宝约定后配置返回；
+     * 退款支付时间
      */
     @JsonProperty("gmt_refund_pay")
     private String gmtRefundPay;
     /**
-     * 本次退款使用的资金渠道；
-     * 默认不返回该信息，需与支付宝约定后配置返回；
+     * 退款使用的资金渠道
      */
     @JsonProperty("refund_detail_item_list")
     private List<TradeFundBill> refundDetailItemList;
     /**
-     * 本次商户实际退回金额；
-     * 默认不返回该信息，需与支付宝约定后配置返回
+     * 交易在支付时候的门店名称
      */
-    @JsonProperty("send_back_fee")
-    private String sendBackFee;
+    @JsonProperty("store_name")
+    private String storeName;
+    /**
+     * 买家在支付宝的用户id
+     */
+    @JsonProperty("buyer_user_id")
+    private String buyerUserId;
+    /**
+     * 退回的前置资产列表
+     */
+    @JsonProperty("refund_preset_paytool_list")
+    private List<PresetPayToolInfo> refundPresetPaytoolList;
     /**
      * 本次退款针对收款方的退收费金额；
-     * 默认不返回该信息，需与支付宝约定后配置返回；
+     * 默认不返回该信息，需与支付宝约定后配置返回
      */
     @JsonProperty("refund_charge_amount")
     private String refundChargeAmount;
@@ -113,3 +118,4 @@ public class AliTradeRefundQueryResponse extends BaseResponse {
     @JsonProperty("present_refund_mdiscount_amount")
     private String presentRefundMdiscountAmount;
 }
+
