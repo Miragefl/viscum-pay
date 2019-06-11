@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * App支付请求参数
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

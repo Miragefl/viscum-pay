@@ -1,5 +1,10 @@
 package com.viscum.pay.base;
 
+/**
+ * 支付宝常量
+ *
+ * @author fenglei
+ */
 public class AliConstant {
 
     public static final String ALI_SERVER_URL = "https://openapi.alipaydev.com/gateway.do";

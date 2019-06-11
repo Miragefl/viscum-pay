@@ -2,6 +2,11 @@ package com.viscum.pay.config;
 
 import lombok.Data;
 
+/**
+ * 微信请求配置
+ *
+ * @author fenglei
+ */
 @Data
 public class WxPayConfig {
 
@@ -32,7 +37,7 @@ public class WxPayConfig {
 
     private String requestUrl;
 
-    public WxPayConfig(String appId, String appSecret, String mchId, String mchKey, String keyPath,String requestUrl) {
+    public WxPayConfig(String appId, String appSecret, String mchId, String mchKey, String keyPath, String requestUrl) {
         this.appId = appId;
         this.appSecret = appSecret;
         this.mchId = mchId;

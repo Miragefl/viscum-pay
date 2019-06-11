@@ -20,6 +20,11 @@ import javax.xml.transform.sax.SAXSource;
 import java.io.*;
 import java.util.*;
 
+/**
+ * xml工具类
+ *
+ * @author fenglei
+ */
 public class XmlUtil {
     private static HashMap<String, JAXBContext> jaxbContextMap = new HashMap();
     private static Logger logger = Logger.getLogger(XmlUtil.class);

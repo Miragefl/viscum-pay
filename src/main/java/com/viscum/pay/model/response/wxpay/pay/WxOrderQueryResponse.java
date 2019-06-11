@@ -9,7 +9,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * 微信订单查询
+ * 微信订单查询响应参数
+ *
+ * @author fenglei
  */
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)

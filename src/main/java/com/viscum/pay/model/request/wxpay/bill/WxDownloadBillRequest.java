@@ -10,6 +10,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 微信账单下载请求参数
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WxDownloadBillRequest implements WxRequest<WxDownloadBillResponse> {

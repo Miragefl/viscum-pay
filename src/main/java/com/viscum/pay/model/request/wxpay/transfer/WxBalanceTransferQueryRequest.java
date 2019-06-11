@@ -8,6 +8,11 @@ import com.viscum.pay.model.request.wxpay.WxRequest;
 import com.viscum.pay.model.response.wxpay.transfer.WxBalanceTransferQueryResponse;
 import lombok.Data;
 
+/**
+ * 微信余额转账查询请求参数
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WxBalanceTransferQueryRequest implements WxRequest<WxBalanceTransferQueryResponse> {

@@ -15,6 +15,8 @@ import javax.validation.constraints.*;
 
 /**
  * 微信预下单参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

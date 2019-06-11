@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * 退款订单查询请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

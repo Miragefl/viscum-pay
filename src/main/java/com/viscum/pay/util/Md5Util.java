@@ -5,6 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Md5工具类
+ *
+ * @author fenglei
+ */
 @Slf4j
 public class Md5Util {
     /**

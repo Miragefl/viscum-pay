@@ -9,7 +9,9 @@ import com.viscum.pay.model.response.alipay.transfer.AlipayFundTransOrderQueryRe
 import lombok.Data;
 
 /**
- * 支付宝转账查询接口
+ * 支付宝转账查询请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

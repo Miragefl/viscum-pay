@@ -13,7 +13,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /**
- * 单笔转账
+ * 单笔转账请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

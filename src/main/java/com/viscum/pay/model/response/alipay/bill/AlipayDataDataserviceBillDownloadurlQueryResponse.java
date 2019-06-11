@@ -6,7 +6,9 @@ import com.viscum.pay.model.response.BaseResponse;
 import lombok.Data;
 
 /**
- * 查询下载账单地址
+ * 查询下载账单地址返回参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

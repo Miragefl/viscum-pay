@@ -11,7 +11,9 @@ import lombok.Data;
 
 
 /**
- * 微信订单查询
+ * 微信订单查询请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

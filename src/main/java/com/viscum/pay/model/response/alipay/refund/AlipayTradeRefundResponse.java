@@ -8,7 +8,9 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 支付宝退款
+ * 支付宝退款响应参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.viscum.pay.model.response.BaseResponse;
 import lombok.Data;
 
+/**
+ * 支付宝预下单响应参数
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlipayTradePayResponse extends BaseResponse {

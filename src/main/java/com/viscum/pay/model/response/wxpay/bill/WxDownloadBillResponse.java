@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 下载账单返回参数 失败时返回
+ *
+ * @author fenglei
  */
 @Data
 @XmlRootElement(name = "xml")

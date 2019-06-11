@@ -8,6 +8,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * 微信银行卡转账查询响应参数
+ *
+ * @author fenglei
+ */
 @Data
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)

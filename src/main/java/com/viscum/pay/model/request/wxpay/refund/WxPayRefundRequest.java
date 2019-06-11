@@ -12,6 +12,11 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+/**
+ * 微信退款请求
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WxPayRefundRequest implements WxRequest<WxPayRefundResponse> {

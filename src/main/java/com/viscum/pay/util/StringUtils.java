@@ -1,6 +1,11 @@
 
 package com.viscum.pay.util;
 
+/**
+ * 字符串工具类
+ *
+ * @author fenglei
+ */
 public abstract class StringUtils {
     private StringUtils() {
     }
@@ -76,7 +81,8 @@ public abstract class StringUtils {
             StringBuilder out = new StringBuilder();
             for (int i = 0; i < input.length(); ++i) {
                 char current = input.charAt(i);
-                if (current == '\t' || current == '\n' || current == '\r' || current >= ' ' && current <= '\ud7ff' || current >= '\ue000' && current <= '�' || current >= 65536 && current <= 1114111) {
+                boolean flag =  current == '\t' || current == '\n' || current == '\r' || current >= ' ' && current <= '\ud7ff' || current >= '\ue000' && current <= '�' || current >= 65536 && current <= 1114111;
+                if (flag) {
                     out.append(current);
                 }
             }

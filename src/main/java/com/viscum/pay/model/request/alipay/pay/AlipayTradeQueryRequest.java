@@ -10,6 +10,8 @@ import lombok.Data;
 
 /**
  * 支付订单查询请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

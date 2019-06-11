@@ -13,6 +13,8 @@ import javax.validation.constraints.Pattern;
 
 /**
  * 支付宝退款请求参数
+ *
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

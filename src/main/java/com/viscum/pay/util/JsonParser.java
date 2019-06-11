@@ -15,6 +15,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * json实体类转换工具类
+ *
+ * @author fenglei
+ */
 public class JsonParser {
     private static ObjectMapper mapper = new ObjectMapper();
 

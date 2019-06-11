@@ -8,6 +8,11 @@ import com.viscum.pay.model.request.wxpay.WxRequest;
 import com.viscum.pay.model.response.wxpay.refund.WxPayRefundQueryResponse;
 import lombok.Data;
 
+/**
+ * 微信退款查询请求参数
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WxPayRefundQueryRequest implements WxRequest<WxPayRefundQueryResponse> {

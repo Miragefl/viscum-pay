@@ -1,5 +1,10 @@
 package com.viscum.pay.base;
 
+/**
+ * 微信常量类
+ *
+ * @author fenglei
+ */
 public class WxConstanst {
 
     public static final String SERVER_URL = "https://api.mch.weixin.qq.com";

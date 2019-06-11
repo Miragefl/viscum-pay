@@ -20,7 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 微信支付相关接口
+ * 微信客户端
+ *
+ * @author fenglei
  */
 @Slf4j
 @Component

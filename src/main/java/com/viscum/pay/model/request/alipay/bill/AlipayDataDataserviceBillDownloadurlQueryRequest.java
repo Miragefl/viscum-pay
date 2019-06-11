@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * 查询账单地址请求参数
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -9,6 +9,7 @@ import lombok.Data;
 
 /**
  * 请求支付宝报文
+ * @author fenglei
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

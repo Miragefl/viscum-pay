@@ -7,6 +7,11 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 退款查询响应参数
+ *
+ * @author fenglei
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlipayTradeFastpayRefundQueryResponse extends BaseResponse {
