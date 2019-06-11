@@ -15,5 +15,11 @@ import com.viscum.pay.model.response.BaseResponse;
  * @Date 2019-06-11
  */
 public interface WxRequest<T extends BaseResponse> extends BaseRequest<T> {
+
+    /**
+     * 是否需要证书
+     *
+     * @return
+     */
     Boolean needCert();
 }

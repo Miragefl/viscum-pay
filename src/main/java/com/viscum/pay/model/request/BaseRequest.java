@@ -5,9 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viscum.pay.model.response.BaseResponse;
 
 public interface BaseRequest<T extends BaseResponse> {
-    @JsonIgnore
+    /**
+     * 获取调用方法
+     *
+     * @return
+     */
     String getMethod();
-    @JsonIgnore
+
+    /**
+     * 获取返回类型
+     *
+     * @return
+     */
     Class<T> getResponseClass();
 
 }

@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.viscum.pay.util.RSAUtil.rsaCheck;
+import static com.viscum.pay.util.RsaUtil.rsaCheck;
 
 /**
  * <p>
@@ -116,7 +116,7 @@ public class AliPayClient {
             String signContent = getSignContent(requestJson);
             logger.info("排序后的生成签名字段：" + signContent);
             // 生成签名
-            String rsaSign = RSAUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliCommonRequest.getCharset(), aliPayConfig.getSignType().toString());
+            String rsaSign = RsaUtil.rsaSign(signContent, aliPayConfig.getAppPrivateKey(), aliCommonRequest.getCharset(), aliPayConfig.getSignType().toString());
             logger.info("生成签名：" + rsaSign);
             return rsaSign;
         } catch (Exception e) {

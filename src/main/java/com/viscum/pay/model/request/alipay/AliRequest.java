@@ -16,6 +16,10 @@ import com.viscum.pay.model.response.BaseResponse;
  * @Date 2019-06-11
  */
 public interface AliRequest<T extends BaseResponse> extends BaseRequest<T> {
-   @JsonIgnore
-   String getVersion();
+    /**
+     * 获取接口版本
+     *
+     * @return
+     */
+    String getVersion();
 }

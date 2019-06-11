@@ -1,8 +1,9 @@
 /*
- * RSAUtil.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
+ * RsaUtil.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
  */
 package com.viscum.pay.util;
 
+import com.viscum.pay.enums.SignType;
 import com.viscum.pay.exception.PayException;
 
 import java.io.ByteArrayInputStream;
@@ -25,7 +26,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @author fenglei
  * @since 2019-06-10
  */
-public class RSAUtil {
+public class RsaUtil {
     /**
      * 同步验签
      *
@@ -38,9 +39,9 @@ public class RSAUtil {
      * @throws PayException
      */
     public static boolean rsaCheck(String content, String sign, String publicKey, String charset, String signType) throws PayException {
-        if ("RSA".equals(signType)) {
+        if (SignType.RSA1.toString().equals(signType)) {
             return rsaCheckContent(content, sign, publicKey, charset);
-        } else if ("RSA2".equals(signType)) {
+        } else if (SignType.RSA2.toString().equals(signType)) {
             return rsa256CheckContent(content, sign, publicKey, charset);
         } else {
             throw new PayException("Sign Type is Not Support : signType=" + signType);
@@ -100,6 +101,7 @@ public class RSAUtil {
             throw new PayException("Sign Type is Not Support : signType=" + signType);
         }
     }
+
     public static String rsaSign(String content, String privateKey, String charset) throws PayException {
         try {
             PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));
@@ -119,6 +121,7 @@ public class RSAUtil {
             throw new PayException("RSAcontent = " + content + "; charset = " + charset, var7);
         }
     }
+
     public static String rsa256Sign(String content, String privateKey, String charset) throws PayException {
         try {
             PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));

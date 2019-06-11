@@ -33,7 +33,7 @@ public class WxPayX509TrustManager implements X509TrustManager {
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
 //        // 初始化信任库
         tmf.init(ks);
-        TrustManager tms[] = tmf.getTrustManagers();
+        TrustManager[] tms = tmf.getTrustManagers();
         /*
          * 遍历TrustManager,如果找到X509TrustManage则直接返回，并作为默认的trust manager,否则抛出异常信息
          */

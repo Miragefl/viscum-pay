@@ -1,50 +1,55 @@
 package com.viscum.pay.util;
 
+/**
+ * Base64 加密解密
+ *
+ * @author fenglei
+ */
 public final class Base64Util {
 
-    static private final int BASELENGTH = 128;
-    static private final int LOOKUPLENGTH = 64;
-    static private final int TWENTYFOURBITGROUP = 24;
-    static private final int EIGHTBIT = 8;
-    static private final int SIXTEENBIT = 16;
-    static private final int FOURBYTE = 4;
+    static private final int BASE_LENGTH = 128;
+    static private final int LOOKUP_LENGTH = 64;
+    static private final int TWENTY_FOUR_BIT_GROUP = 24;
+    static private final int EIGHT_BIT = 8;
+    static private final int SIXTEEN_BIT = 16;
+    static private final int FOUR_BYTE = 4;
     static private final int SIGN = -128;
     static private final char PAD = '=';
-    static private final boolean fDebug = false;
-    static final private byte[] base64Alphabet = new byte[BASELENGTH];
-    static final private char[] lookUpBase64Alphabet = new char[LOOKUPLENGTH];
+    static private final boolean F_DEBUG = false;
+    static final private byte[] BASE64_ALPHABET = new byte[BASE_LENGTH];
+    static final private char[] LOOKUP_BASE64_ALPHABET = new char[LOOKUP_LENGTH];
 
     static {
-        for (int i = 0; i < BASELENGTH; ++i) {
-            base64Alphabet[i] = -1;
+        for (int i = 0; i < BASE_LENGTH; ++i) {
+            BASE64_ALPHABET[i] = -1;
         }
         for (int i = 'Z'; i >= 'A'; i--) {
-            base64Alphabet[i] = (byte) (i - 'A');
+            BASE64_ALPHABET[i] = (byte) (i - 'A');
         }
         for (int i = 'z'; i >= 'a'; i--) {
-            base64Alphabet[i] = (byte) (i - 'a' + 26);
+            BASE64_ALPHABET[i] = (byte) (i - 'a' + 26);
         }
 
         for (int i = '9'; i >= '0'; i--) {
-            base64Alphabet[i] = (byte) (i - '0' + 52);
+            BASE64_ALPHABET[i] = (byte) (i - '0' + 52);
         }
 
-        base64Alphabet['+'] = 62;
-        base64Alphabet['/'] = 63;
+        BASE64_ALPHABET['+'] = 62;
+        BASE64_ALPHABET['/'] = 63;
 
         for (int i = 0; i <= 25; i++) {
-            lookUpBase64Alphabet[i] = (char) ('A' + i);
+            LOOKUP_BASE64_ALPHABET[i] = (char) ('A' + i);
         }
 
         for (int i = 26, j = 0; i <= 51; i++, j++) {
-            lookUpBase64Alphabet[i] = (char) ('a' + j);
+            LOOKUP_BASE64_ALPHABET[i] = (char) ('a' + j);
         }
 
         for (int i = 52, j = 0; i <= 61; i++, j++) {
-            lookUpBase64Alphabet[i] = (char) ('0' + j);
+            LOOKUP_BASE64_ALPHABET[i] = (char) ('0' + j);
         }
-        lookUpBase64Alphabet[62] = (char) '+';
-        lookUpBase64Alphabet[63] = (char) '/';
+        LOOKUP_BASE64_ALPHABET[62] = (char) '+';
+        LOOKUP_BASE64_ALPHABET[63] = (char) '/';
 
     }
 
@@ -57,7 +62,7 @@ public final class Base64Util {
     }
 
     private static boolean isData(char octect) {
-        return (octect < BASELENGTH && base64Alphabet[octect] != -1);
+        return (octect < BASE_LENGTH && BASE64_ALPHABET[octect] != -1);
     }
 
     /**
@@ -72,15 +77,15 @@ public final class Base64Util {
             return null;
         }
 
-        int lengthDataBits = binaryData.length * EIGHTBIT;
+        int lengthDataBits = binaryData.length * EIGHT_BIT;
         if (lengthDataBits == 0) {
             return "";
         }
 
-        int fewerThan24bits = lengthDataBits % TWENTYFOURBITGROUP;
-        int numberTriplets = lengthDataBits / TWENTYFOURBITGROUP;
+        int fewerThan24bits = lengthDataBits % TWENTY_FOUR_BIT_GROUP;
+        int numberTriplets = lengthDataBits / TWENTY_FOUR_BIT_GROUP;
         int numberQuartet = fewerThan24bits != 0 ? numberTriplets + 1 : numberTriplets;
-        char encodedData[] = null;
+        char[] encodedData = null;
 
         encodedData = new char[numberQuartet * 4];
 
@@ -88,7 +93,7 @@ public final class Base64Util {
 
         int encodedIndex = 0;
         int dataIndex = 0;
-        if (fDebug) {
+        if (F_DEBUG) {
             System.out.println("number of triplets = " + numberTriplets);
         }
 
@@ -97,7 +102,7 @@ public final class Base64Util {
             b2 = binaryData[dataIndex++];
             b3 = binaryData[dataIndex++];
 
-            if (fDebug) {
+            if (F_DEBUG) {
                 System.out.println("b1= " + b1 + ", b2= " + b2 + ", b3= " + b3);
             }
 
@@ -108,32 +113,32 @@ public final class Base64Util {
             byte val2 = ((b2 & SIGN) == 0) ? (byte) (b2 >> 4) : (byte) ((b2) >> 4 ^ 0xf0);
             byte val3 = ((b3 & SIGN) == 0) ? (byte) (b3 >> 6) : (byte) ((b3) >> 6 ^ 0xfc);
 
-            if (fDebug) {
+            if (F_DEBUG) {
                 System.out.println("val2 = " + val2);
                 System.out.println("k4   = " + (k << 4));
                 System.out.println("vak  = " + (val2 | (k << 4)));
             }
 
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val2 | (k << 4)];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[(l << 2) | val3];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[b3 & 0x3f];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val1];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val2 | (k << 4)];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[(l << 2) | val3];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[b3 & 0x3f];
         }
 
         // form integral number of 6-bit groups
-        if (fewerThan24bits == EIGHTBIT) {
+        if (fewerThan24bits == EIGHT_BIT) {
             b1 = binaryData[dataIndex];
             k = (byte) (b1 & 0x03);
-            if (fDebug) {
+            if (F_DEBUG) {
                 System.out.println("b1=" + b1);
                 System.out.println("b1<<2 = " + (b1 >> 2));
             }
             byte val1 = ((b1 & SIGN) == 0) ? (byte) (b1 >> 2) : (byte) ((b1) >> 2 ^ 0xc0);
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[k << 4];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val1];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[k << 4];
             encodedData[encodedIndex++] = PAD;
             encodedData[encodedIndex++] = PAD;
-        } else if (fewerThan24bits == SIXTEENBIT) {
+        } else if (fewerThan24bits == SIXTEEN_BIT) {
             b1 = binaryData[dataIndex];
             b2 = binaryData[dataIndex + 1];
             l = (byte) (b2 & 0x0f);
@@ -142,9 +147,9 @@ public final class Base64Util {
             byte val1 = ((b1 & SIGN) == 0) ? (byte) (b1 >> 2) : (byte) ((b1) >> 2 ^ 0xc0);
             byte val2 = ((b2 & SIGN) == 0) ? (byte) (b2 >> 4) : (byte) ((b2) >> 4 ^ 0xf0);
 
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val2 | (k << 4)];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[l << 2];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val1];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[val2 | (k << 4)];
+            encodedData[encodedIndex++] = LOOKUP_BASE64_ALPHABET[l << 2];
             encodedData[encodedIndex++] = PAD;
         }
 
@@ -167,17 +172,18 @@ public final class Base64Util {
         // remove white spaces
         int len = removeWhiteSpace(base64Data);
 
-        if (len % FOURBYTE != 0) {
-            return null;//should be divisible by four
+        if (len % FOUR_BYTE != 0) {
+            //should be divisible by four
+            return null;
         }
 
-        int numberQuadruple = (len / FOURBYTE);
+        int numberQuadruple = (len / FOUR_BYTE);
 
         if (numberQuadruple == 0) {
             return new byte[0];
         }
 
-        byte decodedData[] = null;
+        byte[] decodedData = null;
         byte b1 = 0, b2 = 0, b3 = 0, b4 = 0;
         char d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 
@@ -194,10 +200,10 @@ public final class Base64Util {
                 return null;
             }//if found "no data" just return null
 
-            b1 = base64Alphabet[d1];
-            b2 = base64Alphabet[d2];
-            b3 = base64Alphabet[d3];
-            b4 = base64Alphabet[d4];
+            b1 = BASE64_ALPHABET[d1];
+            b2 = BASE64_ALPHABET[d2];
+            b3 = BASE64_ALPHABET[d3];
+            b4 = BASE64_ALPHABET[d4];
 
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
@@ -205,17 +211,20 @@ public final class Base64Util {
         }
 
         if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))) {
-            return null;//if found "no data" just return null
+            //if found "no data" just return null
+            return null;
         }
 
-        b1 = base64Alphabet[d1];
-        b2 = base64Alphabet[d2];
+        b1 = BASE64_ALPHABET[d1];
+        b2 = BASE64_ALPHABET[d2];
 
         d3 = base64Data[dataIndex++];
         d4 = base64Data[dataIndex++];
-        if (!isData((d3)) || !isData((d4))) {//Check if they are PAD characters
+        //Check if they are PAD characters
+        if (!isData((d3)) || !isData((d4))) {
             if (isPad(d3) && isPad(d4)) {
-                if ((b2 & 0xf) != 0)//last 4 bits should be zero
+                //last 4 bits should be zero
+                if ((b2 & 0xf) != 0)
                 {
                     return null;
                 }
@@ -224,8 +233,9 @@ public final class Base64Util {
                 tmp[encodedIndex] = (byte) (b1 << 2 | b2 >> 4);
                 return tmp;
             } else if (!isPad(d3) && isPad(d4)) {
-                b3 = base64Alphabet[d3];
-                if ((b3 & 0x3) != 0)//last 2 bits should be zero
+                b3 = BASE64_ALPHABET[d3];
+                //last 2 bits should be zero
+                if ((b3 & 0x3) != 0)
                 {
                     return null;
                 }
@@ -238,8 +248,8 @@ public final class Base64Util {
                 return null;
             }
         } else { //No PAD e.g 3cQl
-            b3 = base64Alphabet[d3];
-            b4 = base64Alphabet[d4];
+            b3 = BASE64_ALPHABET[d3];
+            b4 = BASE64_ALPHABET[d4];
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
             decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);

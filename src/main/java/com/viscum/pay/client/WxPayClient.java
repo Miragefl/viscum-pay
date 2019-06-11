@@ -8,7 +8,6 @@ import com.viscum.pay.util.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import javax.net.ssl.TrustManager;
@@ -138,7 +137,7 @@ public class WxPayClient {
      * @return
      */
     public String genDigest(String signContent) {
-        return MD5Util.encode(signContent);
+        return Md5Util.encode(signContent);
     }
 
 }

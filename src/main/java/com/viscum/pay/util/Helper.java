@@ -34,13 +34,16 @@ public class Helper {
         Random random = new Random();
         char ch = '0';
         LinkedList<String> ls = new LinkedList<String>();
-        for (int i = 0; i < 10; i++) {// 0-9
+        // 0-9
+        for (int i = 0; i < 10; i++) {
             ls.add(String.valueOf(48 + i));
         }
-        for (int i = 0; i < 26; i++) {// A-Z
+        // A-Z
+        for (int i = 0; i < 26; i++) {
             ls.add(String.valueOf(65 + i));
         }
-        for (int i = 0; i < 26; i++) {// a-z
+        // a-z
+        for (int i = 0; i < 26; i++) {
             ls.add(String.valueOf(97 + i));
         }
         StringBuilder sb = new StringBuilder();

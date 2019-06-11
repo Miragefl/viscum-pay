@@ -19,6 +19,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * http请求工具类
+ *
+ * @author fenglei
+ */
 @Slf4j
 public class HttpUtil {
 
@@ -61,22 +67,21 @@ public class HttpUtil {
     private static byte[] callAPI(String url, String method, byte[] postData, Proxy proxy, TrustManager trustManager, String contentType, int conTimeout, int readTimeout, String charSet, Map<String, Object> returnCookieMap, Map<String, Object> header)
             throws PayException {
         StringBuilder headContentType = new StringBuilder();
-
-        if ("json".equals(contentType) || "xml".equals(contentType)) {
+        if (Standard.FORMAT_JSON.equals(contentType) || Standard.FORMAT_XML.equals(contentType)) {
             headContentType.append("application/").append(contentType).append(";charset=").append(charSet);
         }
         //普通表单
-        if ("form".equals(contentType)) {
+        if (Standard.FORMAT_FORM.equals(contentType)) {
             headContentType.append("application/x-www-form-urlencoded;").append("charset=").append(charSet);
         }
 
         boolean isPost = false;
-        if ("POST".equals(method)) {
+        if (Standard.HTTP_POST.equals(method)) {
             isPost = true;
         }
         log.info("开始调用接口:" + url);
-        if (proxy != null) // 使用代理
-        {
+        // 使用代理
+        if (proxy != null) {
             log.info("通过代理建立连接:" + proxy.toString());
         }
         byte[] in2b = new byte[0];
@@ -90,7 +95,7 @@ public class HttpUtil {
             }
             HttpURLConnection reqConnection = null;
             // 判断是http请求还是https请求
-            if (reqUrl.getProtocol().toLowerCase().equals("https") && trustManager != null) {
+            if ("https".equals(reqUrl.getProtocol().toLowerCase()) && trustManager != null) {
                 SSLContext sslContext = null;
                 KeyManager[] keyManage = null;
                 try {
@@ -137,16 +142,11 @@ public class HttpUtil {
             reqConnection.setConnectTimeout(conTimeout * 1000);
             reqConnection.setReadTimeout(readTimeout * 1000);
             reqConnection.setRequestMethod(method);
-
-
             if (header != null && !header.isEmpty()) {
-
-
                 for (Map.Entry<String, Object> e : header.entrySet()) {
                     reqConnection.setRequestProperty(e.getKey(), String.valueOf(e.getValue()));
                 }
             }
-
             if (!reqConnection.getRequestProperties().containsKey("Content-Type")) {
                 reqConnection.setRequestProperty("Content-Type", headContentType.toString());
             }
@@ -155,7 +155,6 @@ public class HttpUtil {
             reqConnection.setRequestProperty("Connection", "keep-alive");
             reqConnection.setDoInput(true);
             reqConnection.setDoOutput(isPost);
-
             if (isPost) {
                 OutputStream output = null;
                 try {
@@ -177,14 +176,11 @@ public class HttpUtil {
             if (200 != resCode && 304 != resCode) {
                 throw new PayException("H99995", "通信发生错误" + "httpCode=" + resCode + ";httpMsg=" + resMsg);
             }
-
             Map<String, List<String>> map = reqConnection.getHeaderFields();
-
             List<String> returnCookies = map.get("Set-Cookie");
-
             if (returnCookies != null && returnCookieMap != null) {
                 for (int i = 0; i < returnCookies.size(); i++) {
-                    String cookieStr = (String) returnCookies.get(i);
+                    String cookieStr = returnCookies.get(i);
                     cookieStr = cookieStr.substring(0, cookieStr.indexOf(";"));
                     int index = cookieStr.indexOf("=");
                     if (index > 0) {

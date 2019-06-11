@@ -3,6 +3,9 @@ package com.viscum.pay.config;
 import com.viscum.pay.enums.SignType;
 import lombok.Data;
 
+/**
+ * @author fenglei
+ */
 @Data
 public class AliPayConfig {
 
@@ -11,7 +14,9 @@ public class AliPayConfig {
      */
     private String appId;
 
-    // 支付宝公钥
+    /**
+     * 支付宝公钥
+     */
     private String aliPublicKey;
 
     /**
