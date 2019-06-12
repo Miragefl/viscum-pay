@@ -83,10 +83,6 @@ public class HttpUtil {
             isPost = true;
         }
         log.info("开始调用接口:" + url);
-        // 使用代理
-        if (proxy != null) {
-            log.info("通过代理建立连接:" + proxy.toString());
-        }
         byte[] in2b = new byte[0];
         try {
             java.net.URL reqUrl = null;
@@ -115,9 +111,7 @@ public class HttpUtil {
                     throw new PayException("H99994", "实例化ssl上下文出现异常", e);
                 }
                 // 设置默认的SSLSocketFactory
-                if (sslContext != null) {
-                    HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-                }
+                HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
                 // 建立URLConnection连接
                 try {
                     if (proxy != null) {
