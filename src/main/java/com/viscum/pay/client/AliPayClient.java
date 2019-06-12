@@ -184,7 +184,7 @@ public class AliPayClient {
         for (int i = 0; i < keys.size(); ++i) {
             String key = keys.get(i);
             String value = String.valueOf(sortedParams.get(key));
-            if (StringUtils.areNotEmpty(new String[]{key, value})) {
+            if (BaseStringUtils.areNotEmpty(new String[]{key, value})) {
                 content.append((index == 0 ? "" : "&") + key + "=" + value);
                 ++index;
             }

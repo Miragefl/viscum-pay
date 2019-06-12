@@ -126,4 +126,24 @@ public class XmlUtil {
         logger.info(doc.getRootElement().asXML());
         return doc;
     }
+
+    /**
+     * 将请求报文XML内容提取到MAP中
+     *
+     * @param document
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> parseXmlToMap(Document document) throws Exception {
+        Element xml = document.getRootElement();
+        logger.info("传入的报文：" + xml.asXML());
+        //检查报文内容中是否有禁止的内容(暂时无意义,这类输入信息只用于lucene搜索,不会有其他影响)
+        Map<String, String> dataMap = new HashMap<>();
+        for (Iterator<?> i = xml.elementIterator(); i.hasNext(); ) {
+            Element element = (Element) i.next();
+            //将所有传入字段提取到map中
+            dataMap.put(element.getName(), element.getText());
+        }
+        return dataMap;
+    }
 }

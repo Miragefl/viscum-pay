@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viscum.pay.model.request.wxpay.WxRequest;
 import com.viscum.pay.model.response.wxpay.pay.WxUnifiedOrderResponse;
+import com.viscum.pay.util.Helper;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -35,7 +36,7 @@ public class WxUnifiedOrderRequest implements WxRequest<WxUnifiedOrderResponse> 
      * 随机字符串，不长于32位
      */
     @JsonProperty("nonce_str")
-    private String nonceStr;
+    private String nonceStr = Helper.getRandomChar(16);
     /**
      * 签名
      */

@@ -53,7 +53,7 @@ public class RsaUtil {
             PublicKey pubKey = getPublicKeyFromX509("RSA", new ByteArrayInputStream(publicKey.getBytes()));
             Signature signature = Signature.getInstance("SHA1WithRSA");
             signature.initVerify(pubKey);
-            if (StringUtils.isEmpty(charset)) {
+            if (BaseStringUtils.isEmpty(charset)) {
                 signature.update(content.getBytes());
             } else {
                 signature.update(content.getBytes(charset));
@@ -70,7 +70,7 @@ public class RsaUtil {
             PublicKey pubKey = getPublicKeyFromX509("RSA", new ByteArrayInputStream(publicKey.getBytes()));
             Signature signature = Signature.getInstance("SHA256WithRSA");
             signature.initVerify(pubKey);
-            if (StringUtils.isEmpty(charset)) {
+            if (BaseStringUtils.isEmpty(charset)) {
                 signature.update(content.getBytes());
             } else {
                 signature.update(content.getBytes(charset));
@@ -107,7 +107,7 @@ public class RsaUtil {
             PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));
             Signature signature = Signature.getInstance("SHA1WithRSA");
             signature.initSign(priKey);
-            if (StringUtils.isEmpty(charset)) {
+            if (BaseStringUtils.isEmpty(charset)) {
                 signature.update(content.getBytes());
             } else {
                 signature.update(content.getBytes(charset));
@@ -127,7 +127,7 @@ public class RsaUtil {
             PrivateKey priKey = getPrivateKeyFromPKCS8("RSA", new ByteArrayInputStream(privateKey.getBytes()));
             Signature signature = Signature.getInstance("SHA256WithRSA");
             signature.initSign(priKey);
-            if (StringUtils.isEmpty(charset)) {
+            if (BaseStringUtils.isEmpty(charset)) {
                 signature.update(content.getBytes());
             } else {
                 signature.update(content.getBytes(charset));
@@ -166,7 +166,7 @@ public class RsaUtil {
      * @throws Exception
      */
     public static PrivateKey getPrivateKeyFromPKCS8(String algorithm, InputStream ins) throws Exception {
-        if (ins != null && !StringUtils.isEmpty(algorithm)) {
+        if (ins != null && !BaseStringUtils.isEmpty(algorithm)) {
             KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
             byte[] encodedKey = StreamUtil.readText(ins).getBytes();
             encodedKey = Base64Util.decode(new String(encodedKey));

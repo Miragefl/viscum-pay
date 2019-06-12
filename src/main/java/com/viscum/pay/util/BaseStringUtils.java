@@ -6,8 +6,8 @@ package com.viscum.pay.util;
  *
  * @author fenglei
  */
-public abstract class StringUtils {
-    private StringUtils() {
+public abstract class BaseStringUtils {
+    private BaseStringUtils() {
     }
 
     public static boolean isEmpty(String value) {
