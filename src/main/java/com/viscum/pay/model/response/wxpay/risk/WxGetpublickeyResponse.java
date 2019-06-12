@@ -1,6 +1,3 @@
-/*
- * WxGetpublickeyRequest.java Copyright BrightStars Tech Co. Ltd. All Rights Reserved.
- */
 package com.viscum.pay.model.response.wxpay.risk;
 
 import com.viscum.pay.model.response.BaseResponse;
@@ -13,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * <p>
- *
+ * 获取微信公钥
  * <p>
  *
  * @author fenglei
