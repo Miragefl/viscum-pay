@@ -34,10 +34,19 @@ public class AliPayConfig {
      */
     private SignType signType;
 
+    /**
+     * 回调地址
+     */
     private String notifyUrl;
 
+    /**
+     * 跳转地址
+     */
     private String returnUrl;
 
+    /**
+     * 请求支付宝地址
+     */
     private String requestUrl;
 
 

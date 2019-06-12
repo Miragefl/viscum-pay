@@ -28,6 +28,9 @@ import java.util.Map;
 @Slf4j
 public class HttpUtil {
 
+    private final static String HTTP_STR = "http";
+    private final static String HTTPS_STR = "https";
+
     public static byte[] callPostJSON(String url, JSONObject postData, String contentType, Proxy proxy, TrustManager trustManager) throws PayException {
 
         String strPost = postData.toString();
@@ -88,14 +91,14 @@ public class HttpUtil {
         try {
             java.net.URL reqUrl = null;
 
-            if (url.startsWith("https")) {
+            if (url.startsWith(HTTPS_STR)) {
                 reqUrl = new URL(null, url, new sun.net.www.protocol.https.Handler());
             } else {
                 reqUrl = new URL(url);
             }
             HttpURLConnection reqConnection = null;
             // 判断是http请求还是https请求
-            if ("https".equals(reqUrl.getProtocol().toLowerCase()) && trustManager != null) {
+            if (HTTPS_STR.equals(reqUrl.getProtocol().toLowerCase()) && trustManager != null) {
                 SSLContext sslContext = null;
                 KeyManager[] keyManage = null;
                 try {
@@ -147,7 +150,7 @@ public class HttpUtil {
                     reqConnection.setRequestProperty(e.getKey(), String.valueOf(e.getValue()));
                 }
             }
-            if (!reqConnection.getRequestProperties().containsKey(  "Content-Type")) {
+            if (!reqConnection.getRequestProperties().containsKey("Content-Type")) {
                 reqConnection.setRequestProperty("Content-Type", headContentType.toString());
             }
             reqConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0");
