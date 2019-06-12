@@ -88,8 +88,12 @@ public class WxPayClient {
             log.info("上送微信接口报文：" + params);
             String xml = new String(HttpUtil.callPostStr(url, params, "form", null, trustManager), "UTF-8");
             T t = XmlUtil.xmlStringToModel(xml, responseClazz, true);
-            log.info("微信接口返回：" + t.toString());
-            return t;
+            if (verifySign(t)) {
+                log.info("微信接口返回：" + t.toString());
+                return t;
+            } else {
+                throw new PayException("签名出错");
+            }
         } catch (IOException e) {
             throw new PayException("request to json error", e);
         } catch (JAXBException e) {

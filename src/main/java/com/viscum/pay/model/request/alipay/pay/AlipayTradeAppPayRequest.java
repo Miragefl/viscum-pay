@@ -42,23 +42,22 @@ public class AlipayTradeAppPayRequest implements AliRequest<AlipayTradePayRespon
      * 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
      */
     @JsonProperty("product_code")
-    private String productCode;
+    private String productCode = "QUICK_MSECURITY_PAY";
     /**
      * 商户网站唯一订单号
      */
     @JsonProperty("out_trade_no")
     private String outTradeNo;
 
-    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo, String timeoutExpress) {
-        this(body, subject, totalAmt, productCode, outTradeNo);
+    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt,  String outTradeNo, String timeoutExpress) {
+        this(body, subject, totalAmt, outTradeNo);
         this.timeoutExpress = timeoutExpress;
     }
 
-    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt, String productCode, String outTradeNo) {
+    public AlipayTradeAppPayRequest(String body, String subject, String totalAmt,  String outTradeNo) {
         this.body = body;
         this.subject = subject;
         this.totalAmt = totalAmt;
-        this.productCode = productCode;
         this.outTradeNo = outTradeNo;
     }
 
